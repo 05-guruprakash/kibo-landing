@@ -1,0 +1,186 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --bg: #090909;
+    --surface: #111111;
+    --card: #161616;
+    --card-hover: #1c1c1c;
+    --border: #222222;
+    --border-bright: #333333;
+    --lime: #c8ff00;
+    --lime-dim: rgba(200, 255, 0, 0.15);
+    --cream: #f0ede6;
+    --muted: #444444;
+    --muted-bright: #888888;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--cream);
+    font-family: "Inter", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+.font-pixel {
+    font-family: "Press Start 2P", monospace;
+}
+.font-mono-custom {
+    font-family: "JetBrains Mono", monospace;
+}
+
+/* Card base */
+.bento-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition:
+        border-color 0.2s,
+        transform 0.2s;
+}
+.bento-card:hover {
+    border-color: var(--border-bright);
+    transform: translateY(-2px);
+}
+.bento-card-accent {
+    border-color: rgba(200, 255, 0, 0.25) !important;
+}
+.bento-card-accent:hover {
+    border-color: rgba(200, 255, 0, 0.5) !important;
+}
+
+/* Tag pill */
+.tag {
+    display: inline-block;
+    font-family: "Press Start 2P", monospace;
+    font-size: 7px;
+    color: var(--lime);
+    border: 1px solid rgba(200, 255, 0, 0.35);
+    padding: 4px 8px;
+    letter-spacing: 0.05em;
+}
+
+/* Animations */
+@keyframes bob {
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+@keyframes walk {
+    0% {
+        transform: translateX(-100px);
+    }
+    100% {
+        transform: translateX(calc(100vw + 100px));
+    }
+}
+@keyframes fadeinUp {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes blink {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+@keyframes pulse-lime {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+}
+
+.anim-bob {
+    animation: bob 2s ease-in-out infinite;
+}
+.anim-walk {
+    animation: walk 14s linear infinite;
+}
+.anim-blink {
+    animation: blink 1.2s step-end infinite;
+}
+.anim-pulse {
+    animation: pulse-lime 1.5s ease-in-out infinite;
+}
+
+/* Grid bg pattern */
+.grid-bg {
+    background-image:
+        linear-gradient(rgba(200, 255, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(200, 255, 0, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* Stat bar */
+.stat-bar-track {
+    flex: 1;
+    height: 3px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+}
+.stat-bar-fill {
+    height: 100%;
+    background: var(--lime);
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    transition:
+        background 0.3s,
+        border-color 0.3s;
+}
+.navbar.scrolled {
+    background: rgba(9, 9, 9, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 4px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--border-bright);
+}
