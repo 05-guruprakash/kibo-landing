@@ -1,0 +1,116 @@
+name: Validate Project
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Check Required Files
+        run: |
+          REQUIRED_FILES=(
+            package.json
+            tsconfig.json
+          )
+
+          for file in "${REQUIRED_FILES[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "::error::$file is missing."
+              exit 1
+            fi
+          done
+
+      - name: Check for Empty Source Files
+        run: |
+          find src public \
+            -type f \
+            ! -name "*.png" \
+            ! -name "*.jpg" \
+            ! -name "*.jpeg" \
+            ! -name "*.gif" \
+            ! -name "*.svg" \
+            ! -name "*.ico" \
+            ! -name "*.webp" \
+            ! -name "*.woff" \
+            ! -name "*.woff2" \
+            ! -name "*.ttf" \
+            ! -name "*.eot" \
+          | while read file; do
+
+              if [ ! -s "$file" ]; then
+                echo "::error::$file is empty."
+                exit 1
+              fi
+
+              if ! grep -q '[^[:space:]]' "$file"; then
+                echo "::error::$file contains only whitespace."
+                exit 1
+              fi
+            done
+
+      - name: Get Changed Files
+        id: changed
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git diff --name-only origin/${{ github.base_ref }}...HEAD > changed.txt
+          else
+            git diff --name-only ${{ github.event.before }} ${{ github.sha }} > changed.txt
+          fi
+
+          echo "Changed files:"
+          cat changed.txt
+
+      - name: Validate Changed JSON Files
+        run: |
+          FILES=$(grep '\.json$' changed.txt || true)
+
+          if [ -n "$FILES" ]; then
+            sudo apt-get update
+            sudo apt-get install -y jq
+
+            for file in $FILES; do
+              jq empty "$file"
+            done
+          fi
+
+      - name: Run ESLint on Changed Files
+        run: |
+          FILES=$(grep -E '\.(js|jsx|ts|tsx)$' changed.txt | tr '\n' ' ' || true)
+
+          if [ -n "$FILES" ]; then
+            echo "Linting:"
+            echo "$FILES"
+            npx eslint $FILES
+          else
+            echo "No JS/TS files changed."
+          fi
+
+      - name: Run TypeScript Type Check
+        run: |
+          if grep -qE '\.(ts|tsx)$' changed.txt; then
+            npm run typecheck
+          else
+            echo "No TypeScript files changed."
+          fi
+
+      - name: Build Project
+        run: npm run build
