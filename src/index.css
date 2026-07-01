@@ -2,185 +2,128 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
 :root {
-    --bg: #090909;
-    --surface: #111111;
-    --card: #161616;
-    --card-hover: #1c1c1c;
-    --border: #222222;
-    --border-bright: #333333;
-    --lime: #c8ff00;
-    --lime-dim: rgba(200, 255, 0, 0.15);
-    --cream: #f0ede6;
-    --muted: #444444;
-    --muted-bright: #888888;
+  --sky: #7ec8e3;
+  --sky-light: #b8e4f5;
+  --cloud: #f5f5f0;
+  --cream: #fdf6e3;
+  --warm: #f7edd8;
+  --grass: #4caf50;
+  --grass-light: #7bc67e;
+  --grass-dark: #2e7d32;
+  --sage: #87a878;
+  --forest: #2d5a27;
+  --yellow: #f5c842;
+  --text: #2c3e1f;
+  --text-soft: #5a6e4a;
+  --muted: #8a9e7a;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 body {
-    background-color: var(--bg);
-    color: var(--cream);
-    font-family: "Inter", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+  background: var(--cream);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  overflow-x: hidden;
 }
 
-.font-pixel {
-    font-family: "Press Start 2P", monospace;
+.font-display { font-family: 'Outfit', sans-serif; }
+.font-mono { font-family: 'JetBrains Mono', monospace; }
+
+/* Grass sway */
+@keyframes sway { 0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)} }
+@keyframes drift { 0%{transform:translateX(0)}100%{transform:translateX(-50%)} }
+@keyframes float { 0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)} }
+@keyframes bob { 0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)} }
+@keyframes fadeinUp { from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)} }
+@keyframes breathe { 0%,100%{transform:scale(1)}50%{transform:scale(1.03)} }
+@keyframes flutter { 0%,100%{transform:rotate(-10deg) scaleX(1)}50%{transform:rotate(10deg) scaleX(0.7)} }
+@keyframes petal { 0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
+
+.anim-float { animation: float 3s ease-in-out infinite; }
+.anim-bob { animation: bob 2s ease-in-out infinite; }
+.anim-breathe { animation: breathe 3s ease-in-out infinite; }
+.anim-sway { animation: sway 3s ease-in-out infinite; transform-origin: bottom center; }
+
+/* Bento card */
+.bento {
+  background: rgba(253,246,227,0.85);
+  border: 1.5px solid rgba(135,168,120,0.25);
+  border-radius: 20px;
+  padding: 28px;
+  backdrop-filter: blur(4px);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 2px 16px rgba(46,90,39,0.06);
 }
-.font-mono-custom {
-    font-family: "JetBrains Mono", monospace;
+.bento:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(46,90,39,0.12);
+}
+.bento-green {
+  background: rgba(76,175,80,0.12);
+  border-color: rgba(76,175,80,0.3);
+}
+.bento-sky {
+  background: rgba(126,200,227,0.15);
+  border-color: rgba(126,200,227,0.4);
 }
 
-/* Card base */
-.bento-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    padding: 1.5rem;
-    position: relative;
-    overflow: hidden;
-    transition:
-        border-color 0.2s,
-        transform 0.2s;
-}
-.bento-card:hover {
-    border-color: var(--border-bright);
-    transform: translateY(-2px);
-}
-.bento-card-accent {
-    border-color: rgba(200, 255, 0, 0.25) !important;
-}
-.bento-card-accent:hover {
-    border-color: rgba(200, 255, 0, 0.5) !important;
+/* Pixel art rendering */
+.pixel { image-rendering: pixelated; image-rendering: crisp-edges; }
+
+/* Grass blade */
+.grass-blade {
+  width: 3px;
+  background: linear-gradient(to top, var(--grass-dark), var(--grass-light));
+  border-radius: 2px 2px 0 0;
+  transform-origin: bottom center;
 }
 
-/* Tag pill */
-.tag {
-    display: inline-block;
-    font-family: "Press Start 2P", monospace;
-    font-size: 7px;
-    color: var(--lime);
-    border: 1px solid rgba(200, 255, 0, 0.35);
-    padding: 4px 8px;
-    letter-spacing: 0.05em;
+/* Download btn */
+.btn-primary {
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
+  color: white;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  border-radius: 14px;
+  padding: 16px 36px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(46,125,50,0.35);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(46,125,50,0.45); }
 
-/* Animations */
-@keyframes bob {
-    0%,
-    100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-5px);
-    }
+.btn-secondary {
+  background: rgba(253,246,227,0.9);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  border-radius: 14px;
+  padding: 14px 28px;
+  font-size: 15px;
+  border: 1.5px solid rgba(135,168,120,0.4);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
-@keyframes walk {
-    0% {
-        transform: translateX(-100px);
-    }
-    100% {
-        transform: translateX(calc(100vw + 100px));
-    }
-}
-@keyframes fadeinUp {
-    from {
-        opacity: 0;
-        transform: translateY(14px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-@keyframes blink {
-    0%,
-    100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0;
-    }
-}
-@keyframes pulse-lime {
-    0%,
-    100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.3;
-    }
-}
+.btn-secondary:hover { background: white; border-color: var(--sage); }
 
-.anim-bob {
-    animation: bob 2s ease-in-out infinite;
-}
-.anim-walk {
-    animation: walk 14s linear infinite;
-}
-.anim-blink {
-    animation: blink 1.2s step-end infinite;
-}
-.anim-pulse {
-    animation: pulse-lime 1.5s ease-in-out infinite;
-}
+.fade-up { animation: fadeinUp 0.7s ease forwards; }
 
-/* Grid bg pattern */
-.grid-bg {
-    background-image:
-        linear-gradient(rgba(200, 255, 0, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(200, 255, 0, 0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
+@keyframes flutter {
+  0%,100% { transform: rotate(-15deg) scaleX(1); }
+  50%      { transform: rotate(15deg) scaleX(0.6); }
 }
-
-/* Stat bar */
-.stat-bar-track {
-    flex: 1;
-    height: 3px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-}
-.stat-bar-fill {
-    height: 100%;
-    background: var(--lime);
-}
-
-/* Navbar */
-.navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 50;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    transition:
-        background 0.3s,
-        border-color 0.3s;
-}
-.navbar.scrolled {
-    background: rgba(9, 9, 9, 0.92);
-    backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border);
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-    width: 4px;
-}
-::-webkit-scrollbar-track {
-    background: var(--bg);
-}
-::-webkit-scrollbar-thumb {
-    background: var(--border-bright);
-}
+.anim-flutter { animation: flutter 0.8s ease-in-out infinite; }

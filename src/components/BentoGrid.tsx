@@ -1,163 +1,109 @@
 import { useEffect, useRef } from 'react'
 import PixelCat from './PixelCat'
 
+const features = [
+  { icon:'⚡', title:'Featherlight', desc:'Under 50MB RAM. Barely touches your CPU. Runs invisibly in the background.', span:1 },
+  { icon:'🧠', title:'AI Brain', desc:'Powered by OpenAI, Gemini or Groq. Remembers conversations. Builds a real personality over time.', span:2 },
+  { icon:'🎨', title:'Pixel Art Soul', desc:'Hand-crafted sprite animations. Every frame drawn with care.', span:1 },
+  { icon:'🐾', title:'Play & Pat', desc:'Chases your cursor. Click to headpat. Hearts float up. Happiness goes up.', span:1 },
+  { icon:'😴', title:'Real Emotions', desc:'Hunger, energy, boredom, happiness. They decay. They recover. Your pet actually needs you.', span:1 },
+  { icon:'🔮', title:'More Pets Coming', desc:'Cat is just the beginning. Dog, bunny, and more companions on the roadmap.', span:1 },
+]
+
 export default function BentoGrid() {
   const ref = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    const observer = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) {
-        ref.current?.querySelectorAll<HTMLElement>('.bento-card').forEach((el, i) => {
-          setTimeout(() => {
-            el.style.opacity = '1'
-            el.style.transform = 'translateY(0)'
-          }, i * 90)
-        })
-        observer.disconnect()
-      }
-    }, { threshold: 0.1 })
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
+    const obs = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return
+      ref.current?.querySelectorAll<HTMLElement>('.bc').forEach((el,i) => {
+        setTimeout(() => { el.style.opacity='1'; el.style.transform='translateY(0)' }, i*80)
+      })
+      obs.disconnect()
+    }, { threshold:0.1 })
+    if (ref.current) obs.observe(ref.current)
+    return () => obs.disconnect()
   }, [])
 
-  const cardBase: React.CSSProperties = {
-    opacity: 0,
-    transform: 'translateY(18px)',
-    transition: 'opacity 0.5s ease, transform 0.5s ease, border-color 0.2s, translate 0.2s',
-  }
-
   return (
-    <section id="features" ref={ref} style={{ maxWidth: 1100, margin: '0 auto', padding: '80px 24px' }}>
+    <section id="features" ref={ref} style={{
+      background:'linear-gradient(180deg,#e8f5e9,#fdf6e3)',
+      padding:'100px 24px',
+    }}>
+      <div style={{ maxWidth:1080, margin:'0 auto' }}>
 
-      {/* Header */}
-      <div style={{ marginBottom: 56 }}>
-        <span className="tag">features</span>
-        <h2 className="font-pixel" style={{ color: 'var(--cream)', fontSize: 20, marginTop: 20, lineHeight: 2 }}>
-          more than a pet.<br />
-          <span style={{ color: 'var(--lime)' }}>a companion.</span>
-        </h2>
-      </div>
-
-      {/* Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
-
-        {/* AI Chat — spans 2 cols */}
-        <div
-          className="bento-card bento-card-accent"
-          style={{ ...cardBase, gridColumn: 'span 2', minHeight: 300 }}
-        >
-          <span className="tag">ai brain</span>
-          <h3 className="font-pixel" style={{ color: 'var(--cream)', fontSize: 11, marginTop: 16, marginBottom: 12, lineHeight: 2 }}>
-            actually talks back
-          </h3>
-          <p style={{ color: 'var(--muted-bright)', fontFamily: 'Inter,sans-serif', fontSize: 13, lineHeight: 1.7, maxWidth: 420 }}>
-            Full AI conversation memory. Ask it things, vent to it, get advice.
-            It remembers your last chat and builds a personality over time.
-          </p>
-          {/* Fake chat */}
-          <div style={{ marginTop: 24, display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {[
-              { user: true,  msg: 'how do i fix this bug 😭' },
-              { user: false, msg: "meow... have you tried turning it off?" },
-            ].map((m, i) => (
-              <div key={i} style={{ display: 'flex', justifyContent: m.user ? 'flex-end' : 'flex-start' }}>
-                <div style={{
-                  fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
-                  padding: '8px 12px', maxWidth: 260,
-                  background: m.user ? 'rgba(200,255,0,0.08)' : 'var(--surface)',
-                  border: `1px solid ${m.user ? 'rgba(200,255,0,0.2)' : 'var(--border)'}`,
-                  color: m.user ? 'var(--lime)' : 'var(--cream)',
-                }}>
-                  {m.msg}
-                </div>
-              </div>
-            ))}
-          </div>
-          {/* Corner cat */}
-          <div style={{ position: 'absolute', bottom: 16, right: 16, opacity: 0.15 }}>
-            <PixelCat size={3} color="#c8ff00" />
-          </div>
+        {/* Header */}
+        <div style={{ textAlign:'center', marginBottom:64 }}>
+          <span style={{
+            fontFamily:'JetBrains Mono,monospace', fontSize:11,
+            color:'#4caf50', border:'1px solid rgba(76,175,80,0.35)',
+            borderRadius:20, padding:'4px 14px', display:'inline-block', marginBottom:16,
+          }}>features</span>
+          <h2 className="font-display" style={{ fontSize:'clamp(28px,4vw,48px)', fontWeight:800, color:'#1a3a0f', lineHeight:1.2 }}>
+            More than a pet.<br />
+            <span style={{ color:'#4caf50' }}>A companion.</span>
+          </h2>
         </div>
 
-        {/* Cursor chase */}
-        <div className="bento-card" style={{ ...cardBase, minHeight: 300 }}>
-          <span className="tag">reactive</span>
-          <h3 className="font-pixel" style={{ color: 'var(--cream)', fontSize: 10, marginTop: 16, marginBottom: 12, lineHeight: 2 }}>
-            chases your cursor
-          </h3>
-          <p style={{ color: 'var(--muted-bright)', fontFamily: 'Inter,sans-serif', fontSize: 13, lineHeight: 1.6 }}>
-            Move fast and it sprints. Circle the mouse and it gets dizzy-happy.
-          </p>
-          <div style={{ marginTop: 32, position: 'relative', height: 80 }}>
-            <div className="anim-bob" style={{ position: 'absolute', bottom: 0, left: 8 }}>
-              <PixelCat size={4} color="#c8ff00" />
+        {/* Bento grid */}
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:16 }}>
+          {features.map((f,i) => (
+            <div
+              key={i}
+              className={`bento bc ${f.span===2?'bento-sky':i===0?'bento-green':''}`}
+              style={{
+                gridColumn: f.span===2 ? 'span 2' : undefined,
+                opacity:0, transform:'translateY(18px)',
+                transition:'opacity 0.5s ease, transform 0.5s ease',
+              }}
+            >
+              <div style={{ fontSize:32, marginBottom:14 }}>{f.icon}</div>
+              <h3 className="font-display" style={{ fontSize:18, fontWeight:700, color:'#1a3a0f', marginBottom:8 }}>{f.title}</h3>
+              <p style={{ fontSize:14, color:'#5a6e4a', lineHeight:1.7 }}>{f.desc}</p>
             </div>
-            <div className="anim-pulse" style={{ position: 'absolute', top: 8, right: 20, width: 8, height: 8, background: 'var(--lime)' }} />
-            <div style={{ position: 'absolute', top: 16, right: 32, width: 4, height: 4, background: 'rgba(200,255,0,0.4)' }} />
-            <div style={{ position: 'absolute', top: 24, right: 48, width: 3, height: 3, background: 'rgba(200,255,0,0.2)' }} />
-          </div>
+          ))}
         </div>
 
-        {/* Emotions */}
-        <div className="bento-card" style={cardBase}>
-          <span className="tag">emotions</span>
-          <h3 className="font-pixel" style={{ color: 'var(--cream)', fontSize: 10, marginTop: 16, marginBottom: 10, lineHeight: 2 }}>
-            real feelings
-          </h3>
-          <p style={{ color: 'var(--muted-bright)', fontFamily: 'Inter,sans-serif', fontSize: 12, lineHeight: 1.6, marginBottom: 16 }}>
-            Hunger, energy, happiness — they decay in real time.
-          </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {[{ label: 'happy', val: 82 }, { label: 'energy', val: 55 }, { label: 'hunger', val: 31 }].map(s => (
-              <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: 'var(--muted)', width: 44 }}>{s.label}</span>
-                <div className="stat-bar-track">
-                  <div className="stat-bar-fill" style={{ width: `${s.val}%` }} />
-                </div>
-                <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 9, color: 'var(--muted-bright)', width: 20, textAlign: 'right' }}>{s.val}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Clipboard AI */}
-        <div className="bento-card" style={cardBase}>
-          <span className="tag">clipboard ai</span>
-          <h3 className="font-pixel" style={{ color: 'var(--cream)', fontSize: 10, marginTop: 16, marginBottom: 10, lineHeight: 2 }}>
-            watches what you copy
-          </h3>
-          <p style={{ color: 'var(--muted-bright)', fontFamily: 'Inter,sans-serif', fontSize: 12, lineHeight: 1.6 }}>
-            Copy code or text and the cat reacts — explains, translates, or roasts it.
-          </p>
-          <div style={{
-            marginTop: 16, fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
-            color: 'rgba(200,255,0,0.5)', border: '1px solid rgba(200,255,0,0.1)',
-            background: 'var(--surface)', padding: '10px 12px', lineHeight: 1.8,
+        {/* Showcase bento below */}
+        <div style={{ marginTop:16, display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:16 }}>
+          {/* Large showcase */}
+          <div className="bento bc bento-green" style={{
+            gridColumn:'span 2', minHeight:220,
+            opacity:0, transform:'translateY(18px)',
+            transition:'opacity 0.5s ease, transform 0.5s ease',
+            display:'flex', alignItems:'center', justifyContent:'space-between',
           }}>
-            <span style={{ color: 'var(--muted)' }}>$ </span>copied 3 lines of python<br />
-            <span style={{ color: 'rgba(200,255,0,0.8)' }}>→ "that's a syntax error bestie"</span>
-          </div>
-        </div>
-
-        {/* Head pat */}
-        <div className="bento-card bento-card-accent" style={cardBase}>
-          <span className="tag">play mode</span>
-          <h3 className="font-pixel" style={{ color: 'var(--cream)', fontSize: 10, marginTop: 16, marginBottom: 10, lineHeight: 2 }}>
-            click to pat
-          </h3>
-          <p style={{ color: 'var(--muted-bright)', fontFamily: 'Inter,sans-serif', fontSize: 12, lineHeight: 1.6 }}>
-            Click the cat during play mode. It squishes, hearts float up. Happiness +5.
-          </p>
-          <div style={{ display: 'flex', alignItems: 'flex-end', gap: 12, marginTop: 16 }}>
-            <PixelCat size={4} color="#c8ff00" className="anim-bob" />
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-              {['💕','✨','⭐'].map((e, i) => (
-                <span key={i} style={{ fontSize: 14, opacity: 0.7 - i * 0.2, transform: `translateY(-${i * 6}px)` }}>{e}</span>
-              ))}
+            <div>
+              <span style={{ fontFamily:'JetBrains Mono,monospace', fontSize:10, color:'#4caf50', display:'block', marginBottom:10 }}>companion preview</span>
+              <h3 className="font-display" style={{ fontSize:22, fontWeight:700, color:'#1a3a0f', marginBottom:8 }}>Meet your pet</h3>
+              <p style={{ fontSize:14, color:'#5a6e4a', lineHeight:1.7, maxWidth:300 }}>
+                Sits on your desktop. Reacts to your cursor. Talks back. Gets bored if you ignore it.
+              </p>
+            </div>
+            <div className="anim-bob" style={{ marginLeft:24 }}>
+              <PixelCat size={7} />
             </div>
           </div>
-        </div>
 
+          {/* Stats card */}
+          <div className="bento bc" style={{
+            opacity:0, transform:'translateY(18px)',
+            transition:'opacity 0.5s ease, transform 0.5s ease',
+          }}>
+            <span style={{ fontFamily:'JetBrains Mono,monospace', fontSize:10, color:'#87a878', display:'block', marginBottom:16 }}>real-time stats</span>
+            {[{l:'happiness',v:82,c:'#4caf50'},{l:'energy',v:55,c:'#f5c842'},{l:'hunger',v:31,c:'#ef9a9a'}].map(s => (
+              <div key={s.l} style={{ marginBottom:12 }}>
+                <div style={{ display:'flex', justifyContent:'space-between', marginBottom:4 }}>
+                  <span style={{ fontFamily:'JetBrains Mono,monospace', fontSize:10, color:'#5a6e4a' }}>{s.l}</span>
+                  <span style={{ fontFamily:'JetBrains Mono,monospace', fontSize:10, color:'#87a878' }}>{s.v}</span>
+                </div>
+                <div style={{ height:6, background:'rgba(135,168,120,0.2)', borderRadius:4 }}>
+                  <div style={{ height:'100%', width:`${s.v}%`, background:s.c, borderRadius:4, transition:'width 1s ease' }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )

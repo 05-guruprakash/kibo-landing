@@ -1,56 +1,63 @@
+import { useState } from 'react'
 import PixelCat from './PixelCat'
+import WaitlistModal from './WaitlistModal'
+const GITHUB_REPO_URL = 'https://github.com/abinaya2006/kibo'
 
 export default function Footer() {
+  const [waitlistOpen, setWaitlistOpen] = useState(false)
+
   return (
-    <footer id="download" style={{ borderTop: '1px solid var(--border)' }}>
-      {/* Download CTA */}
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '80px 24px', textAlign: 'center' }}>
-        <div className="anim-bob" style={{ display: 'inline-block', marginBottom: 24 }}>
-          <PixelCat size={5} color="#c8ff00" />
+    <footer id="download">
+      <div style={{ background:'linear-gradient(180deg,#e8f5e9 0%,#4caf50 60%,#2e7d32 100%)', padding:'80px 24px 120px', textAlign:'center', position:'relative', overflow:'hidden' }}>
+        {/* Pixel flowers */}
+        {[{l:'10%',c:'#fff'},{l:'30%',c:'#f5c842'},{l:'65%',c:'#fff'},{l:'85%',c:'#f5c842'}].map((f,i) => (
+          <div key={i} style={{ position:'absolute', bottom:40, left:f.l }}>
+            <div style={{ width:8, height:8, background:f.c, borderRadius:'50%', boxShadow:`0 -10px 0 4px ${f.c}` }} />
+          </div>
+        ))}
+
+        <div className="anim-bob" style={{ display:'inline-block', marginBottom:24 }}>
+          <PixelCat size={7} />
         </div>
-        <h2 className="font-pixel" style={{ color: 'var(--cream)', fontSize: 'clamp(13px, 2.2vw, 26px)', lineHeight: 2, marginBottom: 16 }}>
-          ready to adopt?
+
+        <h2 className="font-display" style={{ fontSize:'clamp(24px,4vw,48px)', fontWeight:800, color:'white', textShadow:'0 2px 16px rgba(0,0,0,0.2)', lineHeight:1.2, marginBottom:16 }}>
+          Ready to adopt?
         </h2>
-        <p style={{ fontFamily: 'Inter,sans-serif', color: 'var(--muted-bright)', fontSize: 14, marginBottom: 40, maxWidth: 420, margin: '0 auto 40px', lineHeight: 1.7 }}>
-          Free forever. Open source. No telemetry. The cat is yours.
+        <p style={{ fontSize:16, color:'rgba(255,255,255,0.85)', maxWidth:400, margin:'0 auto 40px', lineHeight:1.7 }}>
+          Free forever. Open source. No telemetry.<br />The cat is entirely yours.
         </p>
-        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-          <a
-            href="#"
-            style={{
-              background: 'var(--lime)', color: '#090909',
-              fontFamily: 'JetBrains Mono, monospace', fontSize: 13, fontWeight: 700,
-              padding: '14px 36px', textDecoration: 'none',
-              border: '1px solid var(--lime)', transition: 'opacity 0.15s',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
-            onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+
+        <div style={{ display:'flex', gap:14, justifyContent:'center', flexWrap:'wrap' }}>
+          <button
+            onClick={() => setWaitlistOpen(true)}
+            className="btn-primary"
+            style={{ background:'white', color:'#2e7d32', boxShadow:'0 4px 20px rgba(0,0,0,0.15)' }}
           >
-            download for macOS →
-          </a>
+            🐾 Join Waitlist
+          </button>
           <a
-            href="#"
-            style={{
-              border: '1px solid var(--border)', color: 'var(--muted-bright)',
-              fontFamily: 'JetBrains Mono, monospace', fontSize: 13,
-              padding: '14px 28px', textDecoration: 'none', transition: 'border-color 0.2s, color 0.2s',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border-bright)'; e.currentTarget.style.color = 'var(--cream)' }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--muted-bright)' }}
+            href={GITHUB_REPO_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="btn-secondary"
+            style={{ background:'rgba(255,255,255,0.2)', color:'white', borderColor:'rgba(255,255,255,0.4)' }}
           >
-            view on github
+            ★ Star on GitHub
           </a>
         </div>
-        <p style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--muted)', marginTop: 20 }}>
-          also available for Windows · Linux
+
+        <p style={{ fontFamily:'JetBrains Mono,monospace', fontSize:11, color:'rgba(255,255,255,0.6)', marginTop:24 }}>
+          macOS · Windows · Linux
         </p>
       </div>
 
-      {/* Bottom bar */}
-      <div style={{ borderTop: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 40px', height: 48, maxWidth: 1100, margin: '0 auto' }}>
-        <span className="font-pixel" style={{ color: 'var(--lime)', fontSize: 8 }}>purrfect</span>
-        <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: 'var(--muted)' }}>made with ♥ and too much coffee</span>
+      <div style={{ background:'#1a3a0f', padding:'20px 24px', display:'flex', alignItems:'center', justifyContent:'center' }}>
+        <p style={{ fontFamily:'JetBrains Mono,monospace', fontSize:11, color:'rgba(255,255,255,0.4)' }}>
+          made with 🍵 and pixel magic
+        </p>
       </div>
+
+      <WaitlistModal open={waitlistOpen} onClose={() => setWaitlistOpen(false)} />
     </footer>
   )
 }
