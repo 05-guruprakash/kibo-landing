@@ -2,12 +2,12 @@ import { useEffect, useRef } from 'react'
 import PixelCat from './PixelCat'
 
 const features = [
-  { icon:'⚡', title:'Featherlight', desc:'Under 50MB RAM. Barely touches your CPU. Runs invisibly in the background.', span:1 },
-  { icon:'🧠', title:'AI Brain', desc:'Powered by OpenAI, Gemini or Groq. Remembers conversations. Builds a real personality over time.', span:2 },
-  { icon:'🎨', title:'Pixel Art Soul', desc:'Hand-crafted sprite animations. Every frame drawn with care.', span:1 },
-  { icon:'🐾', title:'Play & Pat', desc:'Chases your cursor. Click to headpat. Hearts float up. Happiness goes up.', span:1 },
-  { icon:'😴', title:'Real Emotions', desc:'Hunger, energy, boredom, happiness. They decay. They recover. Your pet actually needs you.', span:1 },
-  { icon:'🔮', title:'More Pets Coming', desc:'Cat is just the beginning. Dog, bunny, and more companions on the roadmap.', span:1 },
+  { icon:'⚡', title:'Featherlight', desc:'Barely there. Runs quietly in the background without slowing you down.', span:1 },
+  { icon:'🧠', title:'Actually talks back', desc:'A real AI companion that remembers your conversations and grows a personality the longer you talk.', span:2 },
+  { icon:'🎨', title:'Hand-pixeled', desc:'Every frame drawn with care, not generated. It looks alive because it was made to feel that way.', span:1 },
+  { icon:'🐾', title:'Chases & plays', desc:'Follows your cursor, gets dizzy when you circle it, headpats on click. It notices you.', span:1 },
+  { icon:'😴', title:'Has real moods', desc:'Gets hungry, gets bored, gets sleepy. Ignore it too long and it\u2019ll let you know.', span:1 },
+  { icon:'🔮', title:'Always evolving', desc:'New companions, new animations, new behaviors — shipped regularly.', span:1 },
 ]
 
 export default function BentoGrid() {
@@ -64,7 +64,7 @@ export default function BentoGrid() {
         </div>
 
         {/* Showcase bento below */}
-        <div className="bento-grid-3" style={{ marginTop:16 }}>
+        <div id="showcase" className="bento-grid-3" style={{ marginTop:16 }}>
           {/* Large showcase */}
           <div className="bento bc bento-green bento-span-2 bento-showcase" style={{
             minHeight:220,

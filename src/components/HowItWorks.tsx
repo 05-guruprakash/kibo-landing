@@ -1,36 +1,36 @@
-const steps = [
-  { num:'01', icon:'⬇️', title:'Download & Install', desc:'One installer. No setup wizard. No account required. Launches in seconds.' },
-  { num:'02', icon:'🔑', title:'Add Your AI Key', desc:'Paste in OpenAI, Gemini, or Groq key. Free tier works perfectly.' },
-  { num:'03', icon:'🐱', title:'Meet Your Pet', desc:'Your companion appears. Feed it. Play with it. Talk to it. It grows with you.' },
+const highlights = [
+  { icon: '🌱', title: 'Grows with you',    desc: 'Every chat, every pat, every ignored notification — it all shapes who your pet becomes.' },
+  { icon: '🔒', title: 'Fully private',      desc: 'Everything stays on your machine. No accounts, no tracking, no data leaving your desktop.' },
+  { icon: '💛', title: 'Made with love',     desc: 'Every sprite hand-pixeled, every animation tuned frame by frame. This isn\u2019t a template.' },
 ]
 
 const faqs = [
-  { q:'Is it free?', a:'Yes. Free forever. Open source. No subscriptions.' },
-  { q:'Do I need an AI key?', a:'Only for chat. The pet lives and animates without one.' },
-  { q:'How much RAM does it use?', a:'Under 50MB. You\'ll forget it\'s running.' },
-  { q:'Will you add more pets?', a:'Dog and bunny are next. More species planned.' },
+  { q: 'Is it really free?',            a: 'Yes — free forever, open source, no subscriptions, no catch.' },
+  { q: 'Will it slow down my laptop?',  a: 'No. Purrfect uses under 50MB of RAM and barely touches your CPU.' },
+  { q: 'Does it need the internet?',    a: 'Only if you want it to chat back. It lives and plays offline too.' },
+  { q: 'More companions coming?',       a: 'Dog and bunny are next, with more species already sketched out.' },
 ]
 
 export default function HowItWorks() {
   return (
     <>
-      {/* How it works */}
-      <section id="how-it-works" style={{ background:'#fdf6e3', padding:'80px 24px', borderTop:'1px solid rgba(135,168,120,0.2)' }}>
+      {/* Highlights — trust / emotional benefits, not a setup guide */}
+      <section style={{ background:'#fdf6e3', padding:'80px 24px', borderTop:'1px solid rgba(135,168,120,0.2)' }}>
         <div style={{ maxWidth:1080, margin:'0 auto' }}>
           <div style={{ textAlign:'center', marginBottom:56 }}>
-            <span style={{ fontFamily:'JetBrains Mono,monospace', fontSize:11, color:'#4caf50', border:'1px solid rgba(76,175,80,0.35)', borderRadius:20, padding:'4px 14px', display:'inline-block', marginBottom:16 }}>setup</span>
+            <span style={{ fontFamily:'JetBrains Mono,monospace', fontSize:11, color:'#4caf50', border:'1px solid rgba(76,175,80,0.35)', borderRadius:20, padding:'4px 14px', display:'inline-block', marginBottom:16 }}>why purrfect</span>
             <h2 className="font-display" style={{ fontSize:'clamp(24px,3.5vw,40px)', fontWeight:800, color:'#1a3a0f' }}>
-              Up in <span style={{ color:'#4caf50' }}>30 seconds</span>
+              Not just software.<br />
+              <span style={{ color:'#4caf50' }}>A little companion.</span>
             </h2>
           </div>
 
           <div className="steps-grid-3">
-            {steps.map((s,i) => (
+            {highlights.map((s,i) => (
               <div key={i} className={i>0 ? 'step-divider' : undefined} style={{
                 padding:'40px 32px', textAlign:'center',
               }}>
                 <div style={{ fontSize:36, marginBottom:16 }}>{s.icon}</div>
-                <div style={{ fontFamily:'JetBrains Mono,monospace', fontSize:10, color:'rgba(76,175,80,0.5)', marginBottom:12 }}>{s.num}</div>
                 <h3 className="font-display" style={{ fontSize:16, fontWeight:700, color:'#1a3a0f', marginBottom:10 }}>{s.title}</h3>
                 <p style={{ fontSize:13, color:'#5a6e4a', lineHeight:1.7 }}>{s.desc}</p>
               </div>

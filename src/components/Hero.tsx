@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from 'react'
 import PixelCat from './PixelCat'
 import WaitlistModal from './WaitlistModal'
 import { useParallax } from '../hooks/useParallax'
+
 const GITHUB_REPO_URL = "https://github.com/05-guruprakash/kibo-landing";
+
 function PixelButterfly({ color = '#7ec8e3' }: { color?: string }) {
   const u = 3
   const px = [[0,1],[1,0],[1,1],[2,1],[3,0],[3,1]].map(([c,r]) => `${c*u}px ${r*u}px 0 ${color}`).join(',')
@@ -62,7 +64,7 @@ export default function Hero() {
   }, [])
 
   return (
-    <section ref={ref} style={{
+    <section id="hero" ref={ref} style={{
       minHeight:'100vh', position:'relative', overflow:'hidden',
       background:'linear-gradient(180deg, #7ec8e3 0%, #b8e4f5 30%, #d4f0c8 65%, #4caf50 100%)',
     }}>
