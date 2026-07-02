@@ -24,11 +24,10 @@ export default function HowItWorks() {
             </h2>
           </div>
 
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:2 }}>
+          <div className="steps-grid-3">
             {steps.map((s,i) => (
-              <div key={i} style={{
+              <div key={i} className={i>0 ? 'step-divider' : undefined} style={{
                 padding:'40px 32px', textAlign:'center',
-                borderLeft: i>0 ? '1px solid rgba(135,168,120,0.2)' : undefined,
               }}>
                 <div style={{ fontSize:36, marginBottom:16 }}>{s.icon}</div>
                 <div style={{ fontFamily:'JetBrains Mono,monospace', fontSize:10, color:'rgba(76,175,80,0.5)', marginBottom:12 }}>{s.num}</div>

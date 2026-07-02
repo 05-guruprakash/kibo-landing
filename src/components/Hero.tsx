@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import PixelCat from './PixelCat'
 import WaitlistModal from './WaitlistModal'
-const GITHUB_REPO_URL = 'https://github.com/abinaya2006/kibo'
-
+import { useParallax } from '../hooks/useParallax'
+const GITHUB_REPO_URL = "https://github.com/05-guruprakash/kibo-landing";
 function PixelButterfly({ color = '#7ec8e3' }: { color?: string }) {
   const u = 3
   const px = [[0,1],[1,0],[1,1],[2,1],[3,0],[3,1]].map(([c,r]) => `${c*u}px ${r*u}px 0 ${color}`).join(',')
@@ -47,6 +47,12 @@ export default function Hero() {
   const ref = useRef<HTMLDivElement>(null)
   const [waitlistOpen, setWaitlistOpen] = useState(false)
 
+  // Parallax: clouds drift slowest (far layer), hills mid, cat/flowers near layer.
+  // Speeds are small multipliers of scrollY so motion stays subtle.
+  const cloudsParallax = useParallax<HTMLDivElement>(0.08)
+  const hillsParallax = useParallax<HTMLDivElement>(0.05)
+  const catParallax = useParallax<HTMLDivElement>(0.15)
+
   useEffect(() => {
     ref.current?.querySelectorAll<HTMLElement>('.fi').forEach((el,i) => {
       el.style.animationDelay = `${i*0.13}s`
@@ -60,8 +66,8 @@ export default function Hero() {
       minHeight:'100vh', position:'relative', overflow:'hidden',
       background:'linear-gradient(180deg, #7ec8e3 0%, #b8e4f5 30%, #d4f0c8 65%, #4caf50 100%)',
     }}>
-      {/* Clouds */}
-      <div style={{ position:'absolute', inset:0, overflow:'hidden', pointerEvents:'none' }}>
+      {/* Clouds — slowest parallax layer (far background) */}
+      <div ref={cloudsParallax} style={{ position:'absolute', inset:0, overflow:'hidden', pointerEvents:'none', willChange:'transform' }}>
         <Cloud style={{ top:60, left:'8%', animation:'drift 40s linear infinite' }} />
         <Cloud style={{ top:40, left:'45%', animation:'drift 55s linear infinite', opacity:0.85 }} />
         <Cloud style={{ top:80, left:'72%', animation:'drift 48s linear infinite', opacity:0.7 }} />
@@ -69,8 +75,8 @@ export default function Hero() {
         <Cloud style={{ top:40, left:'145%', animation:'drift 55s linear infinite', opacity:0.85 }} />
       </div>
 
-      {/* Hills */}
-      <div style={{ position:'absolute', bottom:0, left:0, right:0, height:'42%', pointerEvents:'none' }}>
+      {/* Hills — mid parallax layer */}
+      <div ref={hillsParallax} style={{ position:'absolute', bottom:0, left:0, right:0, height:'42%', pointerEvents:'none', willChange:'transform' }}>
         <div style={{ position:'absolute', bottom:'30%', left:'-5%', right:'-5%', height:'60%', background:'linear-gradient(180deg,#66bb6a,#4caf50)', borderRadius:'80% 80% 0 0 / 60% 60% 0 0' }} />
         <div style={{ position:'absolute', bottom:0, left:'-5%', right:'-5%', height:'70%', background:'linear-gradient(180deg,#81c784,#388e3c)', borderRadius:'70% 70% 0 0 / 50% 50% 0 0' }} />
         <div style={{ position:'absolute', bottom:0, left:0, right:0 }}><GrassRow /></div>
@@ -80,8 +86,8 @@ export default function Hero() {
       <div style={{ position:'absolute', top:'28%', left:'18%' }} className="anim-float"><PixelButterfly color="#7ec8e3" /></div>
       <div style={{ position:'absolute', top:'35%', right:'22%', animationDelay:'1.2s' }} className="anim-float"><PixelButterfly color="#f5c842" /></div>
 
-      {/* Cat */}
-      <div style={{ position:'absolute', bottom:'18%', right:'22%' }} className="anim-bob">
+      {/* Cat — nearest parallax layer, moves most with scroll */}
+      <div ref={catParallax} className="hero-cat anim-bob" style={{ position:'absolute', bottom:'18%', right:'22%', willChange:'transform' }}>
         <PixelCat size={6} />
       </div>
 

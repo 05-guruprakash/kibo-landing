@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import PixelCat from './PixelCat'
 import WaitlistModal from './WaitlistModal'
-const GITHUB_REPO_URL = 'https://github.com/abinaya2006/kibo'
-
+import { useParallax } from '../hooks/useParallax'
+const GITHUB_REPO_URL = "https://github.com/05-guruprakash/kibo-landing";
 export default function Footer() {
   const [waitlistOpen, setWaitlistOpen] = useState(false)
+  const catParallax = useParallax<HTMLDivElement>(-0.04) // gentle upward drift as footer scrolls in
 
   return (
     <footer id="download">
@@ -16,7 +17,7 @@ export default function Footer() {
           </div>
         ))}
 
-        <div className="anim-bob" style={{ display:'inline-block', marginBottom:24 }}>
+        <div ref={catParallax} className="anim-bob" style={{ display:'inline-block', marginBottom:24, willChange:'transform' }}>
           <PixelCat size={7} />
         </div>
 

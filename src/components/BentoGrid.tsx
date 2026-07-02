@@ -46,13 +46,12 @@ export default function BentoGrid() {
         </div>
 
         {/* Bento grid */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:16 }}>
+        <div className="bento-grid-3">
           {features.map((f,i) => (
             <div
               key={i}
-              className={`bento bc ${f.span===2?'bento-sky':i===0?'bento-green':''}`}
+              className={`bento bc ${f.span===2?'bento-sky':i===0?'bento-green':''} ${f.span===2?'bento-span-2':''}`}
               style={{
-                gridColumn: f.span===2 ? 'span 2' : undefined,
                 opacity:0, transform:'translateY(18px)',
                 transition:'opacity 0.5s ease, transform 0.5s ease',
               }}
@@ -65,10 +64,10 @@ export default function BentoGrid() {
         </div>
 
         {/* Showcase bento below */}
-        <div style={{ marginTop:16, display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:16 }}>
+        <div className="bento-grid-3" style={{ marginTop:16 }}>
           {/* Large showcase */}
-          <div className="bento bc bento-green" style={{
-            gridColumn:'span 2', minHeight:220,
+          <div className="bento bc bento-green bento-span-2 bento-showcase" style={{
+            minHeight:220,
             opacity:0, transform:'translateY(18px)',
             transition:'opacity 0.5s ease, transform 0.5s ease',
             display:'flex', alignItems:'center', justifyContent:'space-between',

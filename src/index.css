@@ -122,6 +122,72 @@ body {
 
 .fade-up { animation: fadeinUp 0.7s ease forwards; }
 
+/* ── Global overflow guard ─────────────────────────────────────────── */
+html, body { max-width: 100%; overflow-x: hidden; }
+* { min-width: 0; }
+
+/* ── Reduced motion — disable decorative animation, keep instant states ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Responsive grid helpers (BentoGrid, HowItWorks) ──────────────── */
+.bento-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.bento-span-2 { grid-column: span 2; }
+
+.steps-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+.step-divider { border-left: 1px solid rgba(135,168,120,0.2); }
+
+/* Tablet */
+@media (max-width: 900px) {
+  .bento-grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .bento-span-2 { grid-column: span 2; }
+  .bento-showcase { flex-direction: column; text-align: center; gap: 20px; }
+  .bento-showcase > div:last-child { margin-left: 0 !important; }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .bento-grid-3 { grid-template-columns: 1fr; }
+  .bento-span-2 { grid-column: span 1; }
+  .bento { padding: 20px; }
+
+  .steps-grid-3 { grid-template-columns: 1fr; gap: 0; }
+  .step-divider { border-left: none; border-top: 1px solid rgba(135,168,120,0.2); }
+
+  .hero-cat { transform: scale(0.7); right: 8% !important; }
+
+  .btn-primary, .btn-secondary { padding: 13px 24px; font-size: 14px; width: 100%; justify-content: center; }
+}
+
+@media (max-width: 380px) {
+  .bento { padding: 16px; }
+}
+
+/* ── Navbar ─────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .nav-links { gap: 14px !important; }
+  .nav-links a { font-size: 12px !important; }
+}
+@media (max-width: 400px) {
+  .nav-links { gap: 10px !important; }
+}
+
+
+
 @keyframes flutter {
   0%,100% { transform: rotate(-15deg) scaleX(1); }
   50%      { transform: rotate(15deg) scaleX(0.6); }

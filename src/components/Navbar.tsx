@@ -21,7 +21,7 @@ export default function Navbar() {
         <span className="font-display" style={{ fontSize:18, fontWeight:800, color:'#1a3a0f' }}>
           🐾 <span style={{ color:'#4caf50' }}>purrfect</span>
         </span>
-        <div style={{ display:'flex', gap:28, alignItems:'center' }}>
+        <div className="nav-links" style={{ display:'flex', gap:28, alignItems:'center' }}>
           {[['Features','#features'],['Setup','#how-it-works'],['Download','#download']].map(([l,h]) => (
             <a key={l} href={h} style={{ fontSize:14, fontWeight:500, color:'#2d5a27', textDecoration:'none', transition:'color 0.2s' }}
                onMouseEnter={e=>(e.currentTarget.style.color='#4caf50')}
