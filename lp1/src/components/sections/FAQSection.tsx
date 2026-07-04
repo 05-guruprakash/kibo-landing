@@ -8,10 +8,6 @@ interface FAQItem {
 
 const faqs: FAQItem[] = [
   {
-    question: 'Is it really free?',
-    answer: 'Yes — free forever, open source, no subscriptions, no catch. Kibo is built with love, not VC pressure.'
-  },
-  {
     question: 'Will it slow down my laptop?',
     answer: 'No. Kibo uses under 50MB of RAM and barely touches your CPU. It naps when you nap, and it takes its rest seriously.'
   },
@@ -62,9 +58,9 @@ const FAQItem = ({ item, index }: { item: FAQItem; index: number }) => {
         onClick={() => setOpen(o => !o)}
       >
         {/* Question row */}
-        <div className="flex items-center justify-between px-6 py-5">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5">
           <span
-            className="text-[#2a4a2a] font-medium text-base pr-4"
+            className="text-[#2a4a2a] font-medium text-sm sm:text-base pr-4"
             style={{ fontFamily: 'Quicksand, sans-serif' }}
           >
             {item.question}
@@ -74,7 +70,7 @@ const FAQItem = ({ item, index }: { item: FAQItem; index: number }) => {
           <motion.div
             animate={{ rotate: open ? 45 : 0 }}
             transition={{ duration: 0.25, ease: [0.34, 1.56, 0.64, 1] }}
-            className="flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center"
+            className="flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center"
             style={{
               background: open ? '#4a9a5a' : 'rgba(74,154,90,0.15)',
               border: '1.5px solid rgba(74,154,90,0.3)'
@@ -99,7 +95,7 @@ const FAQItem = ({ item, index }: { item: FAQItem; index: number }) => {
               style={{ overflow: 'hidden' }}
             >
               <p
-                className="px-6 pb-5 text-sm text-[#4a6a4a] leading-relaxed"
+                className="px-4 sm:px-6 pb-4 sm:pb-5 text-sm text-[#4a6a4a] leading-relaxed"
                 style={{ fontFamily: 'Quicksand, sans-serif' }}
               >
                 {item.answer}
@@ -141,35 +137,11 @@ const FAQSection = () => {
         </motion.div>
 
         {/* FAQ list */}
-        <motion.div
-          animate={isInView ? {} : {}}
-          className="space-y-3"
-        >
+        <div className="space-y-3">
           {faqs.map((item, i) => (
             <FAQItem key={i} item={item} index={i} />
           ))}
-        </motion.div>
-
-        {/* Still have questions? */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.6 }}
-          className="mt-10 text-center"
-        >
-          <p
-            className="text-white/50 text-sm"
-            style={{ fontFamily: 'Quicksand, sans-serif' }}
-          >
-            Still curious?{' '}
-            <a
-              href="#"
-              className="text-white/75 underline underline-offset-2 hover:text-white transition-colors"
-            >
-              Talk to us on Discord
-            </a>
-          </p>
-        </motion.div>
+        </div>
       </div>
 
       {/* Ambient floating leaves */}

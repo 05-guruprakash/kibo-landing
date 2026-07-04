@@ -3,22 +3,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Counter from './react-bits/Counter';
 
 const INITIAL_STARS = 2841;
+// TODO: replace with your real GitHub repository URL
+const GITHUB_REPO_URL = 'https://github.com/05-guruprakash/kibo-landing';
 
 const Navbar = () => {
-  const [stars, setStars] = useState(INITIAL_STARS);
-  const [starred, setStarred] = useState(false);
+  const [stars] = useState(INITIAL_STARS);
   const [showWaitlist, setShowWaitlist] = useState(false);
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
-  const handleStar = () => {
-    if (!starred) {
-      setStars(s => s + 1);
-      setStarred(true);
-    } else {
-      setStars(s => s - 1);
-      setStarred(false);
-    }
+  const handleStarClick = () => {
+    window.open(GITHUB_REPO_URL, '_blank', 'noopener,noreferrer');
   };
 
   const handleWaitlistSubmit = (e: React.FormEvent) => {
@@ -72,12 +67,13 @@ const Navbar = () => {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="flex items-center gap-3"
+          className="flex items-center gap-2 sm:gap-3"
         >
-          {/* GitHub Stars Button */}
+          {/* GitHub Stars Button — links to real repo */}
           <motion.button
-            onClick={handleStar}
-            className="flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium"
+            onClick={handleStarClick}
+            aria-label="Star Kibo on GitHub"
+            className="flex items-center gap-2 rounded-full px-3 sm:px-4 py-2 text-sm font-medium"
             style={{
               background: 'rgba(255,255,255,0.18)',
               backdropFilter: 'blur(12px)',
@@ -91,21 +87,12 @@ const Navbar = () => {
             whileTap={{ scale: 0.97 }}
           >
             {/* Star icon */}
-            <motion.svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              animate={{
-                fill: starred ? '#ffd700' : 'rgba(255,255,255,0.7)',
-                scale: starred ? [1, 1.4, 1] : 1
-              }}
-              transition={{ duration: 0.35, type: 'spring', stiffness: 300 }}
-            >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)">
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-            </motion.svg>
+            </svg>
 
             {/* Counter display */}
-            <span className="flex items-center" style={{ lineHeight: 1 }}>
+            <span className="hidden sm:flex items-center" style={{ lineHeight: 1 }}>
               <Counter
                 value={stars}
                 places={[1000, 100, 10, 1]}
@@ -124,13 +111,13 @@ const Navbar = () => {
               />
             </span>
 
-            <span className="opacity-60 text-xs">stars</span>
+            <span className="opacity-60 text-xs hidden sm:inline">stars</span>
           </motion.button>
 
           {/* Join Waitlist */}
           <motion.button
             onClick={() => setShowWaitlist(true)}
-            className="rounded-full px-5 py-2 text-sm font-semibold"
+            className="rounded-full px-4 sm:px-5 py-2 text-sm font-semibold"
             style={{
               background: 'white',
               color: '#2a5a3a',
@@ -169,7 +156,7 @@ const Navbar = () => {
               transition={{ type: 'spring', stiffness: 280, damping: 24 }}
             >
               <div
-                className="rounded-3xl p-8 text-center"
+                className="rounded-3xl p-6 sm:p-8 text-center"
                 style={{
                   background: 'linear-gradient(160deg, #f0f9f0, #e8f5e8)',
                   boxShadow: '0 24px 64px rgba(0,0,0,0.18), 0 1px 0 rgba(255,255,255,0.8) inset',
@@ -264,16 +251,16 @@ const Navbar = () => {
                         transition={{ duration: 0.6 }}
                         className="text-4xl mb-3"
                       >
-                        *
+                        🎉
                       </motion.div>
                       <h3
-                        className="text-xl text-[#2a4a2a] mb-2"
+                        className="text-xl text-[#2a4a2a] mb-1"
                         style={{ fontFamily: 'Fredoka, sans-serif', fontWeight: 500 }}
                       >
                         You're on the list!
                       </h3>
                       <p className="text-sm text-[#5a7a5a]">
-                        Kibo can't wait to meet you.
+                        We'll email you the moment Kibo is ready.
                       </p>
                     </motion.div>
                   )}
