@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollProvider } from './contexts/ScrollContext';
 import GhibliBackground from './components/GhibliBackground';
+import CursorCat from './components/CursorCat';
 import Navbar from './components/Navbar';
 import KiboTrack from './components/KiboTrack';
 import HeroSection from './components/sections/HeroSection';
@@ -37,6 +38,7 @@ function AppContent() {
 
       {/* Sections */}
       <main className="relative z-10">
+        <CursorCat />
         <HeroSection />
         <MeetSection />
         <RemembersSection />
