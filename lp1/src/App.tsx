@@ -2,12 +2,13 @@ import { useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ScrollProvider } from './contexts/ScrollContext';
+import { WaitlistProvider } from './contexts/WaitlistContext';
 import GhibliBackground from './components/GhibliBackground';
-import CursorCat from './components/CursorCat';
 import Navbar from './components/Navbar';
 import KiboTrack from './components/KiboTrack';
 import HeroSection from './components/sections/HeroSection';
 import MeetSection from './components/sections/MeetSection';
+import LiveSection from './components/sections/LiveSection';
 import RemembersSection from './components/sections/RemembersSection';
 import PlaysSection from './components/sections/PlaysSection';
 import FAQSection from './components/sections/FAQSection';
@@ -27,20 +28,14 @@ function AppContent() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Ghibli-style illustrated background */}
       <GhibliBackground />
-
-      {/* Fixed navbar */}
       <Navbar />
-
-      {/* Kibo track companion */}
       <KiboTrack />
 
-      {/* Sections */}
       <main className="relative z-10">
-        <CursorCat />
         <HeroSection />
         <MeetSection />
+        <LiveSection />
         <RemembersSection />
         <PlaysSection />
         <FAQSection />
@@ -54,7 +49,9 @@ function AppContent() {
 function App() {
   return (
     <ScrollProvider>
-      <AppContent />
+      <WaitlistProvider>
+        <AppContent />
+      </WaitlistProvider>
     </ScrollProvider>
   );
 }

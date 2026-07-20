@@ -1,10 +1,12 @@
 import { motion } from 'framer-motion';
+import { useWaitlist } from '../../contexts/WaitlistContext';
 
 const HeroSection = () => {
+  const { open } = useWaitlist();
+
   return (
-    <section className="section-wrapper" data-section="hero">
+    <section className="section-wrapper relative" data-section="hero">
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-        {/* Title */}
         <motion.h1
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -15,12 +17,11 @@ const HeroSection = () => {
           Meet Kibo
         </motion.h1>
 
-        {/* Tagline */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35, duration: 0.8 }}
-          className="text-lg md:text-xl text-white/80 leading-relaxed mb-14 max-w-sm mx-auto"
+          className="text-lg md:text-xl text-white/80 leading-relaxed mb-8 max-w-sm mx-auto"
           style={{
             fontFamily: 'Quicksand, sans-serif',
             fontWeight: 400,
@@ -31,7 +32,22 @@ const HeroSection = () => {
           It remembers. It plays. It grows with you.
         </motion.p>
 
-        {/* Ambient pollen/dust motes */}
+        {/* CTA */}
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.7 }}
+          onClick={() => open()}
+          className="cta-button mb-6"
+          style={{
+            background: 'white',
+            color: '#2a5a3a',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.15)'
+          }}
+        >
+          Join Waitlist
+        </motion.button>
+
         <div className="absolute inset-0 pointer-events-none">
           {[...Array(10)].map((_, i) => (
             <motion.div
@@ -60,24 +76,23 @@ const HeroSection = () => {
             />
           ))}
         </div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.4 }}
-        >
-          <motion.div
-            className="w-6 h-10 rounded-full border-2 border-white/40 flex items-start justify-center p-1"
-            animate={{ y: [0, 4, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
-            <div className="w-1 h-2 bg-white/60 rounded-full" />
-          </motion.div>
-          <p className="text-xs text-white/40 tracking-widest uppercase">scroll</p>
-        </motion.div>
       </div>
+
+      <motion.div
+        className="absolute inset-x-0 bottom-8 z-20 flex flex-col items-center gap-2 pointer-events-none"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.4 }}
+      >
+        <motion.div
+          className="w-6 h-10 rounded-full border-2 border-white/40 flex items-start justify-center p-1"
+          animate={{ y: [0, 4, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+        >
+          <div className="w-1 h-2 bg-white/60 rounded-full" />
+        </motion.div>
+        <p className="text-xs text-white/40 tracking-widest uppercase">scroll</p>
+      </motion.div>
     </section>
   );
 };

@@ -37,6 +37,7 @@ interface CardSwapProps {
   delay?: number;
   pauseOnHover?: boolean;
   onCardClick?: (idx: number) => void;
+  onActiveChange?: (idx: number) => void;
   skewAmount?: number;
   easing?: 'linear' | 'elastic';
   children: React.ReactNode;
@@ -50,6 +51,7 @@ const CardSwap = ({
   delay = 5000,
   pauseOnHover = false,
   onCardClick,
+  onActiveChange,
   skewAmount = 6,
   easing = 'elastic',
   children
@@ -80,9 +82,9 @@ const CardSwap = ({
   );
 
   const order = useRef(Array.from({ length: childArr.length }, (_, i) => i));
-
   const tlRef = useRef<gsap.core.Timeline | null>(null);
   const intervalRef = useRef<number | undefined>(undefined);
+  const swapRef = useRef<() => void>(() => {});
   const container = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -144,8 +146,12 @@ const CardSwap = ({
 
       tl.call(() => {
         order.current = [...rest, front];
+        onActiveChange?.(order.current[0]);
       });
     };
+
+    swapRef.current = swap;
+    onActiveChange?.(order.current[0]);
 
     swap();
     intervalRef.current = window.setInterval(swap, delay);
@@ -172,17 +178,23 @@ const CardSwap = ({
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, refs, config]);
+  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, refs, config, onActiveChange]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)
       ? cloneElement(child as React.ReactElement<{ key?: string; ref?: React.Ref<HTMLDivElement>; style?: React.CSSProperties; onClick?: (e: React.MouseEvent) => void }>, {
           key: i,
           ref: (el: HTMLDivElement | null) => { refs[i].current = el; },
-          style: { width, height, ...((child.props as { style?: React.CSSProperties }).style ?? {}) },
+          style: { width, height, cursor: 'pointer', ...((child.props as { style?: React.CSSProperties }).style ?? {}) },
           onClick: (e: React.MouseEvent) => {
             ((child.props as { onClick?: (e: React.MouseEvent) => void }).onClick)?.(e);
             onCardClick?.(i);
+            // Manual advance: only the front card responds, and resets the auto-timer
+            if (order.current[0] === i) {
+              clearInterval(intervalRef.current);
+              swapRef.current();
+              intervalRef.current = window.setInterval(() => swapRef.current(), delay);
+            }
           }
         })
       : child
