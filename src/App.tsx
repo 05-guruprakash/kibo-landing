@@ -9,12 +9,12 @@ import KiboTrack from './components/KiboTrack';
 import HeroSection from './components/sections/HeroSection';
 import MeetSection from './components/sections/MeetSection';
 import LiveSection from './components/sections/LiveSection';
-import RemembersSection from './components/sections/RemembersSection';
 import PlaysSection from './components/sections/PlaysSection';
 import FAQSection from './components/sections/FAQSection';
 import CelebratesSection from './components/sections/CelebratesSection';
 import EveningSection from './components/sections/EveningSection';
 import './index.css';
+import FeaturesHoverSection from './components/sections/FeaturesHoversSection';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -35,8 +35,8 @@ function AppContent() {
       <main className="relative z-10">
         <HeroSection />
         <MeetSection />
+        <FeaturesHoverSection />
         <LiveSection />
-        <RemembersSection />
         <PlaysSection />
         <FAQSection />
         <CelebratesSection />

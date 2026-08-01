@@ -12,7 +12,7 @@ const FALLBACK_STARS = 2841;
 const Navbar = () => {
   const [stars, setStars] = useState(FALLBACK_STARS);
   const waitlistBtnRef = useRef<HTMLButtonElement>(null);
-  const { isOpen, email, submitted, anchorEl, open, close, setEmail, submit } = useWaitlist();
+  const { isOpen, name, email, status, error, anchorEl, open, close, setName, setEmail, submit } = useWaitlist();
   const [dropdownRect, setDropdownRect] = useState<{ top: number; right: number } | null>(null);
 
   useEffect(() => {
@@ -146,7 +146,6 @@ const Navbar = () => {
               />
 
               {isNavbarAnchored ? (
-                // Dropdown anchored under the navbar button
                 <motion.div
                   className="fixed z-[70] w-[320px]"
                   style={{ top: dropdownRect!.top, right: dropdownRect!.right }}
@@ -155,19 +154,29 @@ const Navbar = () => {
                   exit={{ opacity: 0, y: -8, scale: 0.96 }}
                   transition={{ type: 'spring', stiffness: 320, damping: 26 }}
                 >
-                  <WaitlistPanel email={email} submitted={submitted} setEmail={setEmail} submit={submit} close={close} compact />
+                  <WaitlistPanel
+                    name={name} email={email} status={status} error={error}
+                    setName={setName} setEmail={setEmail} submit={submit} close={close} compact
+                  />
                 </motion.div>
               ) : (
-                // Centered modal for any other trigger on the page
-                <motion.div
-                  className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[70] w-full max-w-sm mx-4"
-                  initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                  transition={{ type: 'spring', stiffness: 280, damping: 24 }}
+                <div
+                  className="fixed inset-0 z-[70] flex items-center justify-center px-4 pointer-events-none"
+                  style={{ height: '100dvh' }}
                 >
-                  <WaitlistPanel email={email} submitted={submitted} setEmail={setEmail} submit={submit} close={close} />
-                </motion.div>
+                  <motion.div
+                    className="w-full max-w-sm pointer-events-auto"
+                    initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.9, y: 10 }}
+                    transition={{ type: 'spring', stiffness: 280, damping: 24 }}
+                  >
+                    <WaitlistPanel
+                      name={name} email={email} status={status} error={error}
+                      setName={setName} setEmail={setEmail} submit={submit} close={close}
+                    />
+                  </motion.div>
+                </div>
               )}
             </>
           )}
@@ -178,17 +187,23 @@ const Navbar = () => {
   );
 };
 
-// Shared panel body used by both display modes
-const WaitlistPanel = ({
+// Shared panel body used by both display modes AND by other sections (e.g. EveningSection)
+export const WaitlistPanel = ({
+  name,
   email,
-  submitted,
+  status,
+  error,
+  setName,
   setEmail,
   submit,
   close,
   compact = false
 }: {
+  name: string;
   email: string;
-  submitted: boolean;
+  status: 'idle' | 'loading' | 'success' | 'error';
+  error: string;
+  setName: (v: string) => void;
   setEmail: (v: string) => void;
   submit: (e: React.FormEvent) => void;
   close: () => void;
@@ -209,7 +224,7 @@ const WaitlistPanel = ({
     </div>
 
     <AnimatePresence mode="wait">
-      {!submitted ? (
+      {status !== 'success' ? (
         <motion.div key="form" initial={{ opacity: 1 }} exit={{ opacity: 0 }}>
           <h3 className={compact ? 'text-lg text-[#2a4a2a] mb-1' : 'text-2xl text-[#2a4a2a] mb-2'} style={{ fontFamily: 'Fredoka, sans-serif', fontWeight: 500 }}>
             Kibo is almost ready
@@ -220,22 +235,46 @@ const WaitlistPanel = ({
 
           <form onSubmit={submit} className="space-y-3">
             <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Your name"
+              required
+              disabled={status === 'loading'}
+              className="w-full px-4 py-3 rounded-xl text-sm outline-none"
+              style={{ background: 'rgba(255,255,255,0.8)', border: '1.5px solid #c4d8c4', color: '#3a4a3a', fontFamily: 'Quicksand, sans-serif' }}
+            />
+            <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
               required
+              disabled={status === 'loading'}
               className="w-full px-4 py-3 rounded-xl text-sm outline-none"
               style={{ background: 'rgba(255,255,255,0.8)', border: '1.5px solid #c4d8c4', color: '#3a4a3a', fontFamily: 'Quicksand, sans-serif' }}
             />
+
+            {status === 'error' && (
+              <p className="text-xs text-red-600 bg-red-50 rounded-lg px-3 py-2" style={{ fontFamily: 'Quicksand, sans-serif' }}>
+                {error}
+              </p>
+            )}
+
             <motion.button
               type="submit"
+              disabled={status === 'loading'}
               className="w-full py-3 rounded-xl text-white font-semibold text-sm"
-              style={{ background: 'linear-gradient(135deg, #4a9a5a, #3a7a4a)', fontFamily: 'Fredoka, sans-serif', letterSpacing: '0.02em' }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              style={{
+                background: 'linear-gradient(135deg, #4a9a5a, #3a7a4a)',
+                fontFamily: 'Fredoka, sans-serif',
+                letterSpacing: '0.02em',
+                opacity: status === 'loading' ? 0.7 : 1
+              }}
+              whileHover={{ scale: status === 'loading' ? 1 : 1.02 }}
+              whileTap={{ scale: status === 'loading' ? 1 : 0.98 }}
             >
-              Notify Me
+              {status === 'loading' ? 'Joining...' : 'Notify Me'}
             </motion.button>
           </form>
 

@@ -29,56 +29,119 @@ const faqs: FAQItem[] = [
   }
 ];
 
+// slight per-card entrance variance so cards feel hand-placed, not a stiff grid
+const tilts = [-1.2, 0.8, -0.6, 1.1, -0.9];
+const accents = ['#22e07c', '#a855f7', '#22e07c', '#a855f7', '#22e07c'];
+
 const FAQItem = ({ item, index }: { item: FAQItem; index: number }) => {
   const [open, setOpen] = useState(false);
+  const accent = accents[index % accents.length];
+  const tilt = tilts[index % tilts.length];
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.07, duration: 0.5 }}
+      initial={{ opacity: 0, y: 30, rotate: tilt * 2 }}
+      whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+      viewport={{ once: true, amount: 0.4 }}
+      transition={{ delay: index * 0.08, duration: 0.55, ease: [0.34, 1.2, 0.64, 1] }}
     >
       <motion.div
-        className="rounded-2xl overflow-hidden cursor-pointer"
+        className="relative rounded-2xl overflow-hidden cursor-pointer"
         style={{
           background: open
-            ? 'rgba(255,255,255,0.72)'
-            : 'rgba(255,255,255,0.48)',
-          border: '1.5px solid rgba(255,255,255,0.55)',
-          backdropFilter: 'blur(12px)',
+            ? 'rgba(255,255,255,0.75)'
+            : 'rgba(255,255,255,0.4)',
+          border: open
+            ? `1.5px solid ${accent}66`
+            : '1.5px solid rgba(255,255,255,0.5)',
+          backdropFilter: 'blur(14px)',
           boxShadow: open
-            ? '0 8px 32px rgba(60,90,60,0.08)'
-            : '0 2px 8px rgba(60,90,60,0.05)'
+            ? `0 10px 36px ${accent}33, 0 2px 12px rgba(0,0,0,0.06)`
+            : '0 2px 10px rgba(0,0,0,0.04)'
         }}
         whileHover={{
-          background: 'rgba(255,255,255,0.65)',
-          boxShadow: '0 6px 24px rgba(60,90,60,0.1)'
+          rotate: tilt * -0.4,
+          scale: 1.012,
+          boxShadow: `0 10px 30px ${accent}22`
         }}
-        transition={{ duration: 0.2 }}
+        transition={{ duration: 0.25 }}
         onClick={() => setOpen(o => !o)}
       >
-        {/* Question row */}
-        <div className="flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5">
-          <span
-            className="text-[#2a4a2a] font-medium text-sm sm:text-base pr-4"
-            style={{ fontFamily: 'Quicksand, sans-serif' }}
-          >
-            {item.question}
-          </span>
+        {/* Glow strip on the left when open */}
+        <motion.div
+          className="absolute left-0 top-0 bottom-0 w-1"
+          style={{ background: accent, filter: `drop-shadow(0 0 6px ${accent})` }}
+          initial={{ scaleY: 0 }}
+          animate={{ scaleY: open ? 1 : 0 }}
+          transition={{ duration: 0.3 }}
+        />
 
-          {/* Chevron */}
+        {/* Ambient fireflies near open card */}
+        <AnimatePresence>
+          {open && (
+            <>
+              {[0, 1, 2].map((f) => (
+                <motion.div
+                  key={f}
+                  className="absolute rounded-full pointer-events-none"
+                  style={{
+                    right: `${10 + f * 12}%`,
+                    top: `${20 + (f % 2) * 40}%`,
+                    width: 4,
+                    height: 4,
+                    background: accent,
+                    boxShadow: `0 0 8px ${accent}, 0 0 16px ${accent}88`
+                  }}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{
+                    opacity: [0, 0.9, 0.6, 0],
+                    y: [0, -14, -6, 4],
+                    scale: [0.4, 1, 0.8, 0.3]
+                  }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 3 + f, repeat: Infinity, delay: f * 0.5, ease: 'easeInOut' }}
+                />
+              ))}
+            </>
+          )}
+        </AnimatePresence>
+
+        {/* Question row */}
+        <div className="flex items-center justify-between gap-4 pl-6 pr-4 sm:pl-8 sm:pr-6 py-4 sm:py-5">
+          <div className="flex items-center gap-3 min-w-0">
+            <span
+              className="text-xs font-bold shrink-0 w-6 h-6 rounded-full flex items-center justify-center"
+              style={{
+                color: open ? '#fff' : accent,
+                background: open ? accent : `${accent}18`,
+                border: `1.5px solid ${accent}55`,
+                transition: 'all 0.25s ease'
+              }}
+            >
+              {index + 1}
+            </span>
+            <span
+              className="text-[#2a4a2a] font-medium text-sm sm:text-base truncate"
+              style={{ fontFamily: 'Quicksand, sans-serif' }}
+            >
+              {item.question}
+            </span>
+          </div>
+
+          {/* Seed → X toggle */}
           <motion.div
-            animate={{ rotate: open ? 45 : 0 }}
-            transition={{ duration: 0.25, ease: [0.34, 1.56, 0.64, 1] }}
-            className="flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center"
+            animate={{ rotate: open ? 135 : 0 }}
+            transition={{ duration: 0.35, ease: [0.34, 1.56, 0.64, 1] }}
+            className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center"
             style={{
-              background: open ? '#4a9a5a' : 'rgba(74,154,90,0.15)',
-              border: '1.5px solid rgba(74,154,90,0.3)'
+              background: open ? accent : `${accent}18`,
+              boxShadow: open ? `0 0 12px ${accent}88` : 'none',
+              border: `1.5px solid ${accent}55`
             }}
           >
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <line x1="6" y1="1" x2="6" y2="11" stroke={open ? 'white' : '#4a9a5a'} strokeWidth="1.8" strokeLinecap="round" />
-              <line x1="1" y1="6" x2="11" y2="6" stroke={open ? 'white' : '#4a9a5a'} strokeWidth="1.8" strokeLinecap="round" />
+            <svg width="13" height="13" viewBox="0 0 12 12" fill="none">
+              <line x1="6" y1="1" x2="6" y2="11" stroke={open ? 'white' : accent} strokeWidth="1.8" strokeLinecap="round" />
+              <line x1="1" y1="6" x2="11" y2="6" stroke={open ? 'white' : accent} strokeWidth="1.8" strokeLinecap="round" />
             </svg>
           </motion.div>
         </div>
@@ -91,11 +154,11 @@ const FAQItem = ({ item, index }: { item: FAQItem; index: number }) => {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
               style={{ overflow: 'hidden' }}
             >
               <p
-                className="px-4 sm:px-6 pb-4 sm:pb-5 text-sm text-[#4a6a4a] leading-relaxed"
+                className="pl-6 pr-4 sm:pl-8 sm:pr-6 pb-5 text-sm text-[#3a5a3a] leading-relaxed"
                 style={{ fontFamily: 'Quicksand, sans-serif' }}
               >
                 {item.answer}
@@ -113,7 +176,7 @@ const FAQSection = () => {
   const isInView = useInView(ref, { once: false, amount: 0.2 });
 
   return (
-    <section ref={ref} className="section-wrapper" data-section="faq">
+    <section ref={ref} className="section-wrapper relative overflow-hidden" data-section="faq">
       <div className="relative z-10 w-full max-w-2xl mx-auto px-6">
         {/* Header */}
         <motion.div
@@ -122,6 +185,19 @@ const FAQSection = () => {
           transition={{ duration: 0.7 }}
           className="text-center mb-12"
         >
+          <motion.span
+            className="inline-block text-xs font-semibold tracking-wide uppercase mb-3 px-3 py-1 rounded-full"
+            style={{
+              color: '#22e07c',
+              background: 'rgba(34,224,124,0.12)',
+              border: '1px solid rgba(34,224,124,0.3)'
+            }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ delay: 0.1, duration: 0.4 }}
+          >
+            Curious minds only
+          </motion.span>
           <h2
             className="section-title text-white mb-3"
             style={{ textShadow: '0 2px 20px rgba(0,0,0,0.25)' }}
