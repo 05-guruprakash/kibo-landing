@@ -77,7 +77,7 @@ const SectionNav = () => {
                 className="section-nav-dot"
                 animate={{
                   scale: isActive ? 1.4 : isHovered ? 1.2 : 1,
-                  backgroundColor: isActive ? '#22e07c' : 'rgba(255,255,255,0.35)',
+                  backgroundColor: isActive ? '#ff9a56' : 'rgba(255,255,255,0.35)',
                 }}
                 transition={{ duration: 0.25 }}
               />

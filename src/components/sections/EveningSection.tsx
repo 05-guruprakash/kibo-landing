@@ -2,9 +2,90 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { useWaitlist } from '../../contexts/WaitlistContext';
 
+// "Kibo" wordmark — letters rise in one by one with a glow burst, then a shine sweeps across
+const KiboWordmark = ({ isInView }: { isInView: boolean }) => {
+  const letters = ['K', 'i', 'b', 'o'];
+
+  return (
+    <div className="w-full flex justify-center overflow-visible py-2">
+      <div style={{ position: 'relative', display: 'inline-flex' }}>
+        <div style={{ display: 'flex' }}>
+          {letters.map((ch, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, y: 30, scale: 0.7, filter: 'blur(6px)' }}
+              animate={
+                isInView
+                  ? { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }
+                  : { opacity: 0, y: 30, scale: 0.7, filter: 'blur(6px)' }
+              }
+              transition={{
+                duration: 0.6,
+                delay: i * 0.1,
+                ease: [0.34, 1.56, 0.64, 1],
+              }}
+              style={{
+                fontFamily: "'Baloo 2', sans-serif",
+                fontWeight: 800,
+                fontSize: 'clamp(2.8rem, 8vw, 5rem)',
+                lineHeight: 1,
+                color: 'rgba(255,255,255,0.92)',
+                textShadow: isInView
+                  ? '0 0 20px rgba(255,255,255,0.4), 0 0 46px rgba(255,220,170,0.25)'
+                  : 'none',
+                transition: 'text-shadow 1s ease 0.6s',
+              }}
+            >
+              {ch}
+            </motion.span>
+          ))}
+        </div>
+
+        {/* Shine sweep, starts after letters have landed */}
+        <motion.div
+          aria-hidden
+          initial={{ backgroundPosition: '-150% 0' }}
+          animate={
+            isInView
+              ? { backgroundPosition: '250% 0' }
+              : { backgroundPosition: '-150% 0' }
+          }
+          transition={{
+            duration: 1.8,
+            delay: 0.9,
+            ease: 'easeInOut',
+            repeat: Infinity,
+            repeatDelay: 3,
+          }}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            fontFamily: "'Baloo 2', sans-serif",
+            fontWeight: 800,
+            fontSize: 'clamp(2.8rem, 8vw, 5rem)',
+            lineHeight: 1,
+            backgroundImage:
+              'linear-gradient(100deg, transparent 40%, rgba(255,255,255,0.95) 50%, transparent 60%)',
+            backgroundSize: '250% 100%',
+            WebkitBackgroundClip: 'text',
+            backgroundClip: 'text',
+            color: 'transparent',
+            pointerEvents: 'none',
+          }}
+        >
+          {letters.join('')}
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
 const EveningSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, amount: 0.3 });
+  const wordmarkRef = useRef(null);
+  const wordmarkInView = useInView(wordmarkRef, { once: false, amount: 0.5 });
   const { open } = useWaitlist();
 
   return (
@@ -33,7 +114,7 @@ const EveningSection = () => {
         ))}
       </div>
 
-      {/* Moon */}
+      {/* Moon
       <motion.div
         className="absolute top-[8%] right-[12%] w-16 h-16 sm:w-20 sm:h-20 rounded-full"
         style={{
@@ -42,8 +123,9 @@ const EveningSection = () => {
         }}
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 12, repeat: Infinity }}
-      />
+      /> */}
 
+      {/* Everything below is one column — this is the fix, wordmark now nests inside it */}
       <div className="relative z-10 flex flex-col items-center justify-center px-6 max-w-md mx-auto text-center">
         {/* Sleepy Kibo */}
         <motion.div
@@ -144,11 +226,16 @@ const EveningSection = () => {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 1 }}
-          className="absolute bottom-6 text-white/25 text-xs px-4 text-center"
+          className="mt-8 text-white/25 text-xs px-4 text-center"
           style={{ fontFamily: 'Quicksand, sans-serif' }}
         >
           Made with care. Kibo awaits.
         </motion.p>
+
+        {/* "Kibo" wordmark — sits below the footer credit, nested in the same column */}
+        <div ref={wordmarkRef} className="w-full mt-3 mb-4">
+          <KiboWordmark isInView={wordmarkInView} />
+        </div>
       </div>
     </section>
   );

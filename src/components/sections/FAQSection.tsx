@@ -31,7 +31,7 @@ const faqs: FAQItem[] = [
 
 // slight per-card entrance variance so cards feel hand-placed, not a stiff grid
 const tilts = [-1.2, 0.8, -0.6, 1.1, -0.9];
-const accents = ['#22e07c', '#a855f7', '#22e07c', '#a855f7', '#22e07c'];
+const accents = ['#140693', '#140693', '#140693', '#140693', '#140693'];
 
 const FAQItem = ({ item, index }: { item: FAQItem; index: number }) => {
   const [open, setOpen] = useState(false);
@@ -185,19 +185,7 @@ const FAQSection = () => {
           transition={{ duration: 0.7 }}
           className="text-center mb-12"
         >
-          <motion.span
-            className="inline-block text-xs font-semibold tracking-wide uppercase mb-3 px-3 py-1 rounded-full"
-            style={{
-              color: '#22e07c',
-              background: 'rgba(34,224,124,0.12)',
-              border: '1px solid rgba(34,224,124,0.3)'
-            }}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ delay: 0.1, duration: 0.4 }}
-          >
-            Curious minds only
-          </motion.span>
+          
           <h2
             className="section-title text-white mb-3"
             style={{ textShadow: '0 2px 20px rgba(0,0,0,0.25)' }}
@@ -231,7 +219,7 @@ const FAQSection = () => {
               top: '5%',
               width: 10,
               height: 16,
-              background: 'linear-gradient(135deg, rgba(90,180,100,0.5), rgba(60,140,70,0.3))',
+              background: 'linear-gradient(135deg, rgba(11, 179, 20, 0.5), rgba(60,140,70,0.3))',
               borderRadius: '0 60% 60% 60%',
             }}
             animate={{
