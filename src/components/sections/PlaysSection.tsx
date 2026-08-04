@@ -2,13 +2,12 @@ import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useRef, useState, useEffect, useLayoutEffect } from 'react';
 
 const activityFeed = [
-  'Kibo just took a nap on your idle tab',
-  'Kibo noticed you switched windows',
-  'Kibo chirped — it missed you',
-  'Kibo watched a build finish',
-  'Kibo stretched after 40 minutes of focus',
+  'Kibo summarized your last 3 tabs',
+  'Kibo flagged a repeated task and automated it',
+  'Kibo went idle while you were in a meeting',
+  'Kibo caught your build error before you did',
+  'Kibo settled in after 40 minutes of deep focus',
 ];
-
 const PlaysSection = () => {
   const ref = useRef(null);
   const playRef = useRef(null);
@@ -150,7 +149,7 @@ const PlaysSection = () => {
             className="section-title text-white mb-3"
             style={{ textShadow: '0 2px 20px rgba(0,0,0,0.25)' }}
           >
-            It Plays. It Remembers.
+            It Plays. It Automates.
           </h2>
           <p
             className="text-white/70 max-w-md mx-auto leading-relaxed"
@@ -236,11 +235,10 @@ const PlaysSection = () => {
                 boxShadow: '0 12px 40px rgba(0,0,0,0.08)'
               }}
             >
-              <h3 className="text-xl font-bold text-[#1a3a2a] mb-3">It Remembers</h3>
+              <h3 className="text-xl font-bold text-[#1a3a2a] mb-3">It Automates</h3>
               <p className="text-sm text-[#2a4a2a] leading-relaxed" style={{ fontFamily: 'Quicksand, sans-serif' }}>
-                Kibo weaves a glowing thread through your days. Every conversation, every
-                small moment, becomes part of its memory. It learns your patterns,
-                your preferences, your quiet habits.
+                The repetitive stuff — sorting files, summarizing docs, running the same steps
+                over and over — Kibo quietly takes off your plate.
               </p>
             </motion.div>
 

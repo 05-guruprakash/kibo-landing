@@ -1,5 +1,6 @@
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { useRef, useState } from 'react';
+
 import { useWaitlist } from '../../contexts/WaitlistContext';
 
 // "Kibo" wordmark — letters rise in one by one with a glow burst, then a shine sweeps across
@@ -87,6 +88,8 @@ const EveningSection = () => {
   const wordmarkRef = useRef(null);
   const wordmarkInView = useInView(wordmarkRef, { once: false, amount: 0.5 });
   const { open } = useWaitlist();
+  const [showComments, setShowComments] = useState(false);
+  const [comment, setComment] = useState('');
 
   return (
     <section ref={ref} className="section-wrapper" data-section="evening">
@@ -195,13 +198,20 @@ const EveningSection = () => {
           transition={{ delay: 0.5 }}
         >
           <motion.button
-            onClick={() => open()}
-            className="cta-button text-[#1a3a1a] px-10"
-            style={{ background: 'white', boxShadow: '0 8px 32px rgba(255,255,255,0.2)' }}
-            whileHover={{ scale: 1.05, y: -2 }}
+            onClick={() => setShowComments(true)}
+            className="px-10 py-3.5 rounded-full font-semibold text-sm"
+            style={{
+              fontFamily: 'Fredoka, sans-serif',
+              background: 'rgba(255,255,255,0.12)',
+              border: '1.5px solid rgba(255,255,255,0.35)',
+              color: '#ffffff',
+              backdropFilter: 'blur(10px)',
+              boxShadow: '0 8px 32px rgba(255,255,255,0.08)',
+            }}
+            whileHover={{ scale: 1.05, y: -2, background: 'rgba(255,255,255,0.18)' }}
             whileTap={{ scale: 0.97 }}
           >
-            Join Waitlist
+            Tell Kibo Something
           </motion.button>
         </motion.div>
 
@@ -229,7 +239,7 @@ const EveningSection = () => {
           className="mt-8 text-white/25 text-xs px-4 text-center"
           style={{ fontFamily: 'Quicksand, sans-serif' }}
         >
-          Made with care. Kibo awaits.
+          Always nearby, never in the way.
         </motion.p>
 
         {/* "Kibo" wordmark — sits below the footer credit, nested in the same column */}
@@ -237,6 +247,87 @@ const EveningSection = () => {
           <KiboWordmark isInView={wordmarkInView} />
         </div>
       </div>
+
+      {/* Comment Modal */}
+      <AnimatePresence>
+        {showComments && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center px-6"
+            style={{ background: 'rgba(5,10,25,0.6)', backdropFilter: 'blur(6px)' }}
+            onClick={() => setShowComments(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-md rounded-3xl p-8 relative"
+              style={{
+                background: 'rgba(20,25,50,0.85)',
+                border: '1.5px solid rgba(255,255,255,0.15)',
+                backdropFilter: 'blur(20px)',
+                boxShadow: '0 20px 60px rgba(0,0,0,0.4)',
+              }}
+            >
+              <button
+                onClick={() => setShowComments(false)}
+                className="absolute top-5 right-5 text-white/40 hover:text-white/80 transition-colors"
+              >
+                ✕
+              </button>
+
+              <h3
+                className="text-2xl font-bold text-white mb-2"
+                style={{ fontFamily: 'Fredoka, sans-serif' }}
+              >
+                Tell Kibo Something
+              </h3>
+              <p
+                className="text-white/50 text-sm mb-6"
+                style={{ fontFamily: 'Quicksand, sans-serif' }}
+              >
+                Thoughts, ideas, or just saying hi — Kibo's listening.
+              </p>
+
+              <textarea
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder="Type here..."
+                rows={4}
+                className="w-full rounded-2xl px-4 py-3 text-white placeholder-white/30 text-sm resize-none outline-none"
+                style={{
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1.5px solid rgba(255,255,255,0.15)',
+                  fontFamily: 'Quicksand, sans-serif',
+                }}
+              />
+
+              <motion.button
+                onClick={() => {
+                  // handle submit here
+                  setShowComments(false);
+                  setComment('');
+                }}
+                className="mt-5 w-full py-3 rounded-full font-semibold text-sm"
+                style={{
+                  fontFamily: 'Fredoka, sans-serif',
+                  background: 'white',
+                  color: '#1a3a1a',
+                }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Send
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </section>
   );
 };

@@ -41,13 +41,13 @@ const MeetSection = () => {
               and gets strangely curious about your cursor. Like a cat that's always watching.
             </motion.p>
 
-            {/* Live-synced caption reflecting the active card */}
+            {/* Live-synced caption reflecting the active card — desktop/tablet only, since CardSwap doesn't render on mobile */}
             <motion.div
               key={activeCard}
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4 }}
-              className="pt-2 border-t border-[#2a4a2a]/10"
+              className="hidden md:block pt-2 border-t border-[#2a4a2a]/10"
             >
               <p className="text-sm font-semibold text-[#1a3a2a]">{cardMeta[activeCard].title}</p>
               <p className="text-xs text-[#5a7a5a]">{cardMeta[activeCard].desc}</p>
@@ -60,7 +60,7 @@ const MeetSection = () => {
             transition={{ delay: 0.5 }}
             className="mt-6 flex flex-wrap gap-2"
           >
-            {['Curious', 'Gentle', 'Playful', 'Patient'].map((trait) => (
+            {['Answers', 'Automates', 'Summarizes', 'Local'].map((trait) => (
               <span
                 key={trait}
                 className="px-4 py-1.5 rounded-full text-sm font-medium text-[#1a3a2a]"
@@ -72,11 +72,12 @@ const MeetSection = () => {
           </motion.div>
         </motion.div>
 
+        {/* CardSwap stack — hidden on mobile, visible from md breakpoint up */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.25 }}
-          className="relative w-full md:w-[400px] h-[300px] md:h-[340px]"
+          className="hidden md:block relative w-full md:w-[400px] h-[300px] md:h-[340px]"
         >
           <CardSwap
             cardDistance={42}
