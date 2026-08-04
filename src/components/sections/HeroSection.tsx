@@ -14,7 +14,7 @@ const HeroSection = () => {
           className="section-title mb-5 text-white"
           style={{ textShadow: '0 2px 30px rgba(0,0,0,0.3), 0 0 80px rgba(255,255,255,0.1)' }}
         >
-          Meet Kibo
+          Your desktop's smartest little companion.
         </motion.h1>
 
         <motion.p
@@ -28,8 +28,7 @@ const HeroSection = () => {
             textShadow: '0 1px 12px rgba(0,0,0,0.25)'
           }}
         >
-          A tiny friend who lives on your desktop.
-          It remembers. It plays. It grows with you.
+          A tiny presence that makes your desktop feel alive, without ever getting between you and your work.
         </motion.p>
 
         {/* CTA */}

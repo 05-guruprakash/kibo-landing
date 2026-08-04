@@ -3,9 +3,9 @@ import { useRef, useState } from 'react';
 import CardSwap, { Card } from '../react-bits/CardSwap';
 
 const cardMeta = [
-  { title: 'Kibo sleeps when you sleep', desc: 'Watching over your desktop dreams' },
-  { title: 'Kibo notices things', desc: 'Your cursor, your rhythm, your moods' },
-  { title: 'Kibo celebrates with you', desc: 'Your small wins deserve applause' }
+  { title: 'Kibo lives on your screen', desc: 'Not a chatbot, not a tool — a tiny companion' },
+  { title: 'Kibo works when you work', desc: 'Summarizing, automating, and helping without being asked' },
+  { title: 'Kibo surprises you sometimes', desc: 'Little moments of personality, just for fun' }
 ];
 
 const MeetSection = () => {
@@ -33,12 +33,12 @@ const MeetSection = () => {
           </h2>
           <div className="space-y-4 text-[#2a4a2a] leading-relaxed" style={{ fontFamily: 'Quicksand, sans-serif' }}>
             <motion.p initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.2 }}>
-              Kibo isn't here to optimise your workflow or boost your productivity.
-              It exists simply to keep you company.
+              Kibo turns your desktop into something that feels a little less static and
+              a little more alive — a presence, not a productivity feature.
             </motion.p>
             <motion.p initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.35 }}>
-              Perched quietly in the corner of your screen, Kibo naps, plays, watches,
-              and occasionally chirps. Like a cat that knows your secrets.
+              It finds places to sit, jumps over little obstacles, sleeps when you're away,
+              and gets strangely curious about your cursor. Like a cat that's always watching.
             </motion.p>
 
             {/* Live-synced caption reflecting the active card */}
