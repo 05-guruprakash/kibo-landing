@@ -5,7 +5,7 @@ import { ScrollProvider } from './contexts/ScrollContext';
 import { WaitlistProvider } from './contexts/WaitlistContext';
 import GhibliBackground from './components/GhibliBackground';
 import Navbar from './components/Navbar';
-import KiboTrack from './components/KiboTrack';
+import SectionNav from './components/SectionNav';
 import HeroSection from './components/sections/HeroSection';
 import MeetSection from './components/sections/MeetSection';
 import LiveSection from './components/sections/LiveSection';
@@ -30,7 +30,7 @@ function AppContent() {
     <div className="min-h-screen relative overflow-hidden">
       <GhibliBackground />
       <Navbar />
-      <KiboTrack />
+      <SectionNav />
 
       <main className="relative z-10">
         <HeroSection />

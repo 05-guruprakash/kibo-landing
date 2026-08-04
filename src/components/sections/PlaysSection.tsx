@@ -36,13 +36,9 @@ const PlaysSection = () => {
       setConnectors({
         w: gridRect.width,
         h: gridRect.height,
-        // right-mid edge of "It Remembers" card
         a: { x: remRect.right - gridRect.left, y: remRect.top + remRect.height / 2 - gridRect.top },
-        // right-mid edge of timeline aside
         b: { x: asideRect.right - gridRect.left, y: asideRect.top + asideRect.height / 2 - gridRect.top },
-        // left edge of playground, upper third
         c: { x: playRect.left - gridRect.left, y: playRect.top + playRect.height * 0.3 - gridRect.top },
-        // left edge of playground, lower third
         d: { x: playRect.left - gridRect.left, y: playRect.top + playRect.height * 0.7 - gridRect.top },
       });
     };
@@ -94,7 +90,6 @@ const PlaysSection = () => {
 
   return (
     <section ref={ref} className="section-wrapper relative overflow-hidden" data-section="plays">
-      {/* Fireflies — subtle, contained background layer */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
         {fireflies.map((f) => (
           <motion.div
@@ -145,7 +140,6 @@ const PlaysSection = () => {
       </div>
 
       <div className="relative z-10 px-6 max-w-6xl mx-auto">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -166,9 +160,7 @@ const PlaysSection = () => {
           </p>
         </motion.div>
 
-        {/* Two-column: Remembers (left) · Playground (right) */}
         <div ref={gridRef} className="relative grid grid-cols-1 md:grid-cols-[1fr_1fr] gap-8 items-start">
-          {/* Langflow-style connector overlay, built from real measured card positions */}
           {connectors && (
             <svg
               className="hidden md:block absolute inset-0 pointer-events-none z-20"
@@ -191,7 +183,6 @@ const PlaysSection = () => {
                 </filter>
               </defs>
 
-              {/* Remembers card → Playground (upper) */}
               <motion.path
                 d={`M ${connectors.a.x} ${connectors.a.y} C ${connectors.a.x + (connectors.c.x - connectors.a.x) * 0.55} ${connectors.a.y}, ${connectors.a.x + (connectors.c.x - connectors.a.x) * 0.45} ${connectors.c.y}, ${connectors.c.x} ${connectors.c.y}`}
                 stroke="url(#connGrad)"
@@ -201,7 +192,6 @@ const PlaysSection = () => {
                 animate={isInView ? { pathLength: 1, opacity: 1 } : {}}
                 transition={{ duration: 1.1, delay: 0.4 }}
               />
-              {/* Timeline aside → Playground (lower) */}
               <motion.path
                 d={`M ${connectors.b.x} ${connectors.b.y} C ${connectors.b.x + (connectors.d.x - connectors.b.x) * 0.55} ${connectors.b.y}, ${connectors.b.x + (connectors.d.x - connectors.b.x) * 0.45} ${connectors.d.y}, ${connectors.d.x} ${connectors.d.y}`}
                 stroke="url(#connGrad)"
@@ -212,7 +202,6 @@ const PlaysSection = () => {
                 transition={{ duration: 1.1, delay: 0.6 }}
               />
 
-              {/* Node dots — neon glow, alternating green/purple */}
               {[connectors.a, connectors.b, connectors.c, connectors.d].map((n, i) => {
                 const color = i % 2 === 0 ? '#22e07c' : '#a855f7';
                 return (
@@ -233,7 +222,6 @@ const PlaysSection = () => {
             </svg>
           )}
 
-          {/* LEFT: Remembers content + timeline aside, stacked */}
           <div className="relative z-10 flex flex-col gap-6">
             <motion.div
               ref={remembersCardRef}
@@ -316,7 +304,6 @@ const PlaysSection = () => {
             </motion.aside>
           </div>
 
-          {/* RIGHT: Playground + Live activity directly under it */}
           <div className="relative z-10 flex flex-col gap-4">
             <motion.div
               initial={{ opacity: 0, scale: 0.94 }}
@@ -337,7 +324,6 @@ const PlaysSection = () => {
                   boxShadow: '0 20px 60px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.6)'
                 }}
               >
-                {/* Grid */}
                 <div className="absolute inset-0 opacity-10">
                   <svg width="100%" height="100%">
                     <defs>
@@ -349,7 +335,6 @@ const PlaysSection = () => {
                   </svg>
                 </div>
 
-                {/* Cursor glow, only while hovering */}
                 {isHoveringPlay && (
                   <motion.div
                     className="absolute pointer-events-none rounded-full"
@@ -366,7 +351,6 @@ const PlaysSection = () => {
                   />
                 )}
 
-                {/* Draggable toy ball */}
                 <motion.div
                   className="absolute w-9 h-9 rounded-full z-10"
                   style={{
@@ -383,7 +367,6 @@ const PlaysSection = () => {
                   transition={{ y: { duration: 2, repeat: Infinity, ease: 'easeInOut' } }}
                 />
 
-                {/* Mini Kibo — only appears + follows cursor while hovering */}
                 <AnimatePresence>
                   {isHoveringPlay && (
                     <motion.div
@@ -418,7 +401,6 @@ const PlaysSection = () => {
                   )}
                 </AnimatePresence>
 
-                {/* Hint */}
                 <div
                   className="absolute bottom-4 left-1/2 -translate-x-1/2 text-xs text-[#4a7a4a]/70 flex items-center gap-2"
                   style={{ fontFamily: 'Quicksand, sans-serif' }}
@@ -429,7 +411,6 @@ const PlaysSection = () => {
               </div>
             </motion.div>
 
-            {/* Live activity — fit directly under the playground */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
