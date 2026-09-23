@@ -36,6 +36,7 @@ interface Feature {
   tagline: string;
   description: string;
   accent: string;
+  textAccent: string;
   icon: React.ReactNode;
   catFrame: { x: number; y: number };
 }
@@ -48,6 +49,7 @@ const features: Feature[] = [
     description:
       'Kibo notices when you move your mouse into its space — chasing, pouncing, reacting in real time. It never feels scripted.',
     accent: '#22e07c',
+    textAccent: '#0f7a45',
     catFrame: { x: 64, y: 608 }, // jumpUp row, playful pose
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -63,6 +65,7 @@ const features: Feature[] = [
     description:
       'Every conversation and quiet moment becomes part of its memory — Kibo learns your patterns, your preferences, your rhythm.',
     accent: '#a855f7',
+    textAccent: '#7c3aed',
     catFrame: { x: 0, y: 288 }, // sitting row, calm pose
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -77,6 +80,7 @@ const features: Feature[] = [
     description:
       'Highlight text anywhere and ask Kibo about it instantly — no copy-paste, no tab switching. It already knows what you meant.',
     accent: '#22e07c',
+    textAccent: '#0f7a45',
     catFrame: { x: 32, y: 288 }, // sitting row, alert pose variant
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -91,6 +95,7 @@ const features: Feature[] = [
     description:
       'Kibo earns experience from every interaction, unlocking new expressions, moods, and personality traits the longer you spend together.',
     accent: '#a855f7',
+    textAccent: '#7c3aed',
     catFrame: { x: 96, y: 640 }, // jumpDown row, leaping/growing pose
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -144,7 +149,7 @@ const FeaturesHoverSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, delay: 0.15 }}
-          className="flex flex-col md:flex-row gap-3 h-auto md:h-[420px]"
+          className="flex flex-col md:flex-row gap-3 h-auto md:h-[360px]"
         >
           {features.map((f) => {
             const active = activeId === f.id;
@@ -156,9 +161,9 @@ const FeaturesHoverSection = () => {
                 onMouseEnter={() => setActiveId(f.id)}
                 onMouseMove={handleMouseMove(f.id)}
                 onClick={() => setActiveId(f.id)}
-                animate={{ flex: active ? 3.2 : 1 }}
+                animate={{ flex: active ? 2.6 : 1 }}
                 transition={{ duration: 0.5, ease: [0.34, 1, 0.64, 1] }}
-                className="relative overflow-hidden rounded-3xl cursor-pointer min-h-[110px] md:min-h-0"
+                className="relative overflow-hidden rounded-3xl cursor-pointer min-h-[100px] md:min-h-0"
                 style={{
                   ['--mx' as any]: '50%',
                   ['--my' as any]: '50%',
@@ -265,13 +270,13 @@ const FeaturesHoverSection = () => {
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.3 }}
-                      className="relative z-10 h-full flex flex-col justify-end p-6 md:p-8"
+                      className="relative z-10 h-full flex flex-col justify-end p-5 md:p-6"
                     >
                       <motion.div
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ duration: 0.35, delay: 0.1 }}
-                        className="relative w-12 h-12 mb-5"
+                        className="relative w-10 h-10 mb-4"
                       >
                         {/* soft pulsing outer glow */}
                         <motion.div
@@ -285,7 +290,7 @@ const FeaturesHoverSection = () => {
                         />
                         {/* icon container with gradient fill instead of flat/transparent bg */}
                         <div
-                          className="relative w-12 h-12 rounded-full flex items-center justify-center"
+                          className="relative w-10 h-10 rounded-full flex items-center justify-center"
                           style={{
                             color: '#fff',
                             background: `radial-gradient(circle at 30% 30%, ${f.accent}, ${f.accent}bb 60%, ${f.accent}88)`,
@@ -299,11 +304,11 @@ const FeaturesHoverSection = () => {
 
                       <span
                         className="text-xs font-semibold uppercase tracking-wide mb-2"
-                        style={{ color: f.accent, fontFamily: 'Quicksand, sans-serif' }}
+                        style={{ color: f.textAccent, fontFamily: 'Quicksand, sans-serif' }}
                       >
                         {f.tagline}
                       </span>
-                      <h3 className="text-2xl md:text-3xl font-bold text-[#1a3a2a] mb-3">
+                      <h3 className="text-xl md:text-2xl font-bold text-[#1a3a2a] mb-3">
                         {f.title}
                       </h3>
                       <p
@@ -320,7 +325,7 @@ const FeaturesHoverSection = () => {
 
                 {/* Mobile collapsed label (stacked layout) */}
                 {!active && (
-                  <div className="md:hidden flex items-center gap-3 p-5 h-full">
+                  <div className="md:hidden flex items-center gap-3 p-4 h-full">
                     <div
                       className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
                       style={{ color: f.accent, background: `${f.accent}18`, border: `1.5px solid ${f.accent}40` }}
