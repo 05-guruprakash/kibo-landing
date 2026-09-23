@@ -8,6 +8,8 @@ const cardMeta = [
   { title: 'Kibo surprises you sometimes', desc: 'Little moments of personality, just for fun' }
 ];
 
+const TITLE_COLOR = '#ff7a3d';
+
 const MeetSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, amount: 0.3 });
@@ -49,7 +51,7 @@ const MeetSection = () => {
               transition={{ duration: 0.4 }}
               className="hidden md:block pt-2 border-t border-[#2a4a2a]/10"
             >
-              <p className="text-sm font-semibold text-[#1a3a2a]">{cardMeta[activeCard].title}</p>
+              <p className="text-sm font-semibold" style={{ color: TITLE_COLOR }}>{cardMeta[activeCard].title}</p>
               <p className="text-xs text-[#5a7a5a]">{cardMeta[activeCard].desc}</p>
             </motion.div>
           </div>
@@ -77,50 +79,50 @@ const MeetSection = () => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={isInView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.25 }}
-          className="hidden md:block relative w-full md:w-[400px] h-[300px] md:h-[340px]"
+          className="hidden md:block relative w-full md:w-[340px] h-[260px] md:h-[290px]"
         >
           <CardSwap
-            cardDistance={42}
-            verticalDistance={52}
+            cardDistance={36}
+            verticalDistance={44}
             delay={5000}
             pauseOnHover={true}
-            width={285}
-            height={190}
+            width={240}
+            height={160}
             onActiveChange={setActiveCard}
           >
-            <Card customClass="p-6 flex flex-col justify-between">
-              <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-3" style={{ background: 'linear-gradient(135deg, #fce4d6, #f9c8b8)' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <Card customClass="p-5 flex flex-col justify-between">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-2.5" style={{ background: 'linear-gradient(135deg, #fce4d6, #f9c8b8)' }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                   <path d="M12 3 Q18 6 18 12 Q18 18 12 21 Q6 18 6 12 Q6 6 12 3Z" fill="#d4785a" opacity="0.7"/>
                   <path d="M8 14 L16 10" stroke="#d4785a" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
               </div>
               <div>
-                <p className="font-semibold text-[#2a3a2a] mb-1" style={{ fontFamily: 'Fredoka, sans-serif' }}>Kibo sleeps when you sleep</p>
-                <p className="text-sm text-[#5a6a5a]" style={{ fontFamily: 'Quicksand, sans-serif' }}>Watching over your desktop dreams</p>
+                <p className="font-semibold mb-1 text-sm" style={{ fontFamily: 'Fredoka, sans-serif', color: TITLE_COLOR }}>Kibo sleeps when you sleep</p>
+                <p className="text-xs text-[#5a6a5a]" style={{ fontFamily: 'Quicksand, sans-serif' }}>Watching over your desktop dreams</p>
               </div>
             </Card>
-            <Card customClass="p-6 flex flex-col justify-between">
-              <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-3" style={{ background: 'linear-gradient(135deg, #d4ecd8, #b8e0c0)' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <Card customClass="p-5 flex flex-col justify-between">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-2.5" style={{ background: 'linear-gradient(135deg, #d4ecd8, #b8e0c0)' }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                   <circle cx="12" cy="12" r="7" stroke="#3a8a4a" strokeWidth="1.8" fill="none"/>
                   <circle cx="12" cy="12" r="2.5" fill="#3a8a4a"/>
                 </svg>
               </div>
               <div>
-                <p className="font-semibold text-[#2a3a2a] mb-1" style={{ fontFamily: 'Fredoka, sans-serif' }}>Kibo notices things</p>
-                <p className="text-sm text-[#5a6a5a]" style={{ fontFamily: 'Quicksand, sans-serif' }}>Your cursor, your rhythm, your moods</p>
+                <p className="font-semibold mb-1 text-sm" style={{ fontFamily: 'Fredoka, sans-serif', color: TITLE_COLOR }}>Kibo notices things</p>
+                <p className="text-xs text-[#5a6a5a]" style={{ fontFamily: 'Quicksand, sans-serif' }}>Your cursor, your rhythm, your moods</p>
               </div>
             </Card>
-            <Card customClass="p-6 flex flex-col justify-between">
-              <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-3" style={{ background: 'linear-gradient(135deg, #e0d4f0, #ccc0e8)' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <Card customClass="p-5 flex flex-col justify-between">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-2.5" style={{ background: 'linear-gradient(135deg, #e0d4f0, #ccc0e8)' }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                   <path d="M12 2l2.5 5 5.5 0.8-4 3.9 0.95 5.45L12 14.77l-4.95 2.58.95-5.45L4 8.8l5.5-.8z" fill="#7a60a8" opacity="0.8"/>
                 </svg>
               </div>
               <div>
-                <p className="font-semibold text-[#2a3a2a] mb-1" style={{ fontFamily: 'Fredoka, sans-serif' }}>Kibo celebrates with you</p>
-                <p className="text-sm text-[#5a6a5a]" style={{ fontFamily: 'Quicksand, sans-serif' }}>Your small wins deserve applause</p>
+                <p className="font-semibold mb-1 text-sm" style={{ fontFamily: 'Fredoka, sans-serif', color: TITLE_COLOR }}>Kibo celebrates with you</p>
+                <p className="text-xs text-[#5a6a5a]" style={{ fontFamily: 'Quicksand, sans-serif' }}>Your small wins deserve applause</p>
               </div>
             </Card>
           </CardSwap>

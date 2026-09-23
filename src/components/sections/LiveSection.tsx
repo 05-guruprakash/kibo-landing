@@ -40,7 +40,7 @@ const LiveSection = () => {
   const activeStep = steps[activeIndex];
 
   return (
-    <section className="relative py-16 px-6">
+    <section className="relative py-16 px-6" data-section="live">
       <h2 className="section-title text-center mb-3 text-white">See Kibo in action</h2>
       <p className="text-center text-base opacity-70 mb-10 text-white">
         Three steps. Zero friction.

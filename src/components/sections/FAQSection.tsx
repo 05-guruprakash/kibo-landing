@@ -61,7 +61,6 @@ const FAQItem = ({ item, index }: { item: FAQItem; index: number }) => {
         }}
         whileHover={{
           rotate: tilt * -0.4,
-          scale: 1.012,
           boxShadow: `0 10px 30px ${accent}22`
         }}
         transition={{ duration: 0.25 }}
@@ -185,7 +184,7 @@ const FAQSection = () => {
           transition={{ duration: 0.7 }}
           className="text-center mb-12"
         >
-          
+
           <h2
             className="section-title text-white mb-3"
             style={{ textShadow: '0 2px 20px rgba(0,0,0,0.25)' }}
