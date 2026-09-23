@@ -5,7 +5,7 @@ import { useWaitlist } from '../../contexts/WaitlistContext';
 import catSheet from '../../assets/Cat-Sheet.png';
 
 const THOUGHTS = [
-  "mrow... don't mind me 🥺",
+  "meow... don't mind me 🥺",
   "just vibing on your desktop",
   "watching you work, quietly",
   "psst... you're doing great",

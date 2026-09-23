@@ -129,46 +129,7 @@ const EveningSection = () => {
       /> */}
 
       {/* Everything below is one column — this is the fix, wordmark now nests inside it */}
-      <div className="relative z-10 flex flex-col items-center justify-center px-6 max-w-md mx-auto text-center">
-        {/* Sleepy Kibo */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={isInView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.8, type: 'spring', stiffness: 160 }}
-          className="mb-8 relative"
-        >
-          <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <svg width="90" height="90" viewBox="0 0 60 60" fill="none" className="w-[70px] h-[70px] sm:w-[90px] sm:h-[90px]">
-              <ellipse cx="30" cy="42" rx="18" ry="12" fill="#f5e6d3" />
-              <ellipse cx="30" cy="24" rx="16" ry="13" fill="#f5e6d3" />
-              <path d="M14 18 Q10 8 18 12 Q22 14 20 20" fill="#f5e6d3" />
-              <path d="M46 18 Q50 8 42 12 Q38 14 40 20" fill="#f5e6d3" />
-              <path d="M22 24 Q26 21.5 30 24" stroke="#5a4a3a" strokeWidth="2" strokeLinecap="round" fill="none" />
-              <path d="M38 24 Q34 21.5 30 24" stroke="#5a4a3a" strokeWidth="2" strokeLinecap="round" fill="none" />
-              <ellipse cx="30" cy="28" rx="2" ry="1.5" fill="#fcd5ce" />
-              <path d="M46 45 Q54 40 52 50 Q50 55 46 52" fill="#f5e6d3" stroke="#e8d5c4" strokeWidth="0.8" />
-            </svg>
-          </motion.div>
-          {['z', 'z', 'z'].map((z, i) => (
-            <motion.span
-              key={i}
-              className="absolute text-white/50 font-semibold select-none"
-              style={{
-                fontSize: 10 + i * 3,
-                right: -8 - i * 10,
-                top: 10 + i * 10,
-                fontFamily: 'Fredoka, sans-serif'
-              }}
-              animate={{ y: [0, -12, 0], opacity: [0.4, 0.1, 0.4] }}
-              transition={{ duration: 2 + i * 0.5, repeat: Infinity, delay: i * 0.7 }}
-            >
-              {z}
-            </motion.span>
-          ))}
-        </motion.div>
+      <div className="relative z-10 flex flex-col items-center justify-center px-6 max-w-md mx-auto text-center"> 
 
         {/* Title */}
         <motion.h2

@@ -58,7 +58,6 @@ const Navbar = () => {
           transition={{ delay: 0.2 }}
           className="flex items-center gap-2"
         >
-          <CatSpriteIcon size={28} />
           <span
             className="text-white font-semibold text-lg"
             style={{ fontFamily: 'Fredoka, sans-serif', textShadow: '0 1px 8px rgba(0,0,0,0.25)' }}
@@ -219,7 +218,7 @@ export const WaitlistPanel = ({
   >
     <div className="flex justify-center mb-3">
       <motion.div animate={{ y: [0, -6, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}>
-        <CatSpriteIcon size={compact ? 36 : 48} />
+
       </motion.div>
     </div>
 
